@@ -15,6 +15,7 @@
         <router-link to="/register" class="link reg">注册</router-link>
         <router-link to="/login" class="link">登录</router-link>
         <router-link to="/user" class="link">个人中心</router-link>
+        <router-link to="/writer" class="link">写文章</router-link>
 
       </div>
   </div>

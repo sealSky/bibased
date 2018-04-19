@@ -11,7 +11,7 @@
           <!-- 文章列表 -->
           <div id="list-container">
               <ul class="note-list">
-                  <li v-for="list in lists" :key="list.index">
+                  <li class="have-img" v-for="list in lists" :key="list.index">
                       <div class="content">
                           <div class="author">
                               <a href="#" class="avatar">
@@ -87,71 +87,7 @@ export default {
             }
         }
 
-        .note-list {
-
-            .content {
-                margin-right: 160px;
-            }
-            li {
-                position: relative;
-                width: 100%;
-                margin: 0 0 17px;
-                padding: 0 2px 17px 0;
-                border-bottom: 1px solid #f0f0f0;
-                word-wrap: break-word;
-                line-height: 20px;
-            }
-            .author {
-                margin-bottom: 14px;
-                font-size: 13px;
-                .avatar {
-                    display: inline-block;
-                    vertical-align: middle;
-                    margin: 0 5px 0 0;
-                    width: 32px;
-                    height: 32px;
-                    .img {
-                        width: 100%;
-                        height: 100%;
-                        border: 1px solid #ddd;
-                        border-radius: 50%;
-                    }
-                }
-                .info {
-                    display: inline-block;
-                    vertical-align: middle;
-                    .nickname {
-                        vertical-align: middle;
-                    }
-                }
-            }
-            .title {
-                margin: -7px 0 4px;
-                display: inherit;
-                font-size: 18px;
-                font-weight: 700;
-                line-height: 1.5;
-            }
-            .abstract {
-                margin: 0 0 8px;
-                font-size: 13px;
-                line-height: 24px;
-            }
-            .wrap-img {
-                position: absolute;
-                top: 50%;
-                margin-top: -68px;
-                right: 0;
-                width: 150px;
-                height: 120px;
-                .img {
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 4px;
-                    border: 1px solid #f0f0f0;
-                }
-            }
-        }
+        
     }
     .aside {
         flex: 7;

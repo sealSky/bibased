@@ -12,6 +12,7 @@ import Content from '../components/Content.vue'
 
 
 
+
 export default {
 
   name: 'Index',
