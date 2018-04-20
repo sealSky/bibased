@@ -24,6 +24,9 @@
                           </div>
                         <a href="#" class="title" target="_blank">{{list.content.author.title.text}}</a>
                         <p class="abstract">{{list.content.author.abstract}}</p>
+                        <div class="meta">
+                            
+                        </div>
                       </div>
                       <a href="#" class="wrap-img">
                           <img :src="list.wrap.img" class="img" />

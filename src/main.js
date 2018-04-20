@@ -5,14 +5,16 @@ import ElementUI from 'element-ui';
 import App from './App'
 import router from './router'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 import 'element-ui/lib/theme-chalk/index.css';
-import './style/common/font_njithd8txsqncdi/iconfont.css'
+import '@/style/common/font_631887_ci8s2ok48qn9izfr/iconfont.css'
 
 // 自己写的样式
 import './style/base.less';
 import './style/common/sign.less';
 import './style/common/list.less';
+import './style/zhihu.less';
 
 
 
@@ -20,6 +22,8 @@ import './style/common/list.less';
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(Vuex)
+
+Vue.prototype.axios = axios
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

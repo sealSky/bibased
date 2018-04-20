@@ -24,7 +24,7 @@
           <el-input type="password" v-model="user.pass" prefix-icon="iconfont icon-mima" auto-complete="off" placeholder="设置密码"></el-input>
         </el-form-item>
         <el-form-item >
-          <el-button type="primary" class="button" @click="submitForm('user')">注册</el-button>
+          <el-button type="primary" class="button" @click="registerUser()">注册</el-button>
           <p class="sign-msg">点击 “注册” 即表示您同意并愿意遵守简书</p>
         </el-form-item>
       </el-form>
@@ -36,7 +36,9 @@
 
 <script>
 export default {
+  
   data() {
+
       var checkName = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('昵称不能为空'));
@@ -79,6 +81,30 @@ export default {
       };
     },
     methods: {
+      // 注册函数
+      registerUser () {
+        let name = this.user.name;
+        let pwd = this.user.pass;
+        
+
+        
+      this.axios({
+        method: 'post',
+        url: '/api/user/addUser',
+        data: {
+          username: name,
+          password: pwd
+        }
+        
+      })
+      .then((response) => {
+        console.log('注册成功');
+        }).cath((error) => {
+          console.log(error);
+        })
+      },
+
+
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {

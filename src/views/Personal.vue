@@ -22,8 +22,17 @@
               </div>
 
             <el-tabs class="trigger-menu" v-model="activeName" @tab-click="handleClick" >
-                <el-tab-pane v-for="(item, index) in personals" :key="item.type" >
+                <!-- <el-tab-pane v-for="(item, index) in personals" :key="item.type" >
                    <span slot="label" @click="changeType(item.type)" ><i class="el-icon-tickets"></i>{{item.name}}</span>
+                </el-tab-pane> -->
+                <el-tab-pane >
+                   <span slot="label" @click="changeType('article')" ><i class="el-icon-tickets"></i>文章</span>
+                </el-tab-pane>
+                <el-tab-pane >
+                   <span slot="label" @click="changeType('trends')" ><i class="iconfont icon-tongzhi"></i>动态</span>
+                </el-tab-pane>
+                 <el-tab-pane >
+                   <span slot="label" @click="changeType('comments')" ><i class="iconfont icon-detailscomments"></i>最新评论</span>
                 </el-tab-pane>
                 <List :lists="getList"></List>
             </el-tabs>
