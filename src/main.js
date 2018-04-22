@@ -8,13 +8,12 @@ import Vuex from 'vuex'
 import axios from 'axios'
 
 import 'element-ui/lib/theme-chalk/index.css';
-import '@/style/common/font_631887_ci8s2ok48qn9izfr/iconfont.css'
+import '@/style/common/font_631887_6m66ttw1c2nvcxr/iconfont.css'
 
 // 自己写的样式
 import './style/base.less';
 import './style/common/sign.less';
 import './style/common/list.less';
-import './style/zhihu.less';
 
 
 

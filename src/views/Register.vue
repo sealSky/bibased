@@ -28,13 +28,12 @@
           <p class="sign-msg">点击 “注册” 即表示您同意并愿意遵守简书</p>
         </el-form-item>
       </el-form>
-
-
       </div>
   </div>
 </template>
 
 <script>
+import until from '@/js/common'
 export default {
   
   data() {
@@ -51,6 +50,16 @@ export default {
           }
         }, 1000);
       };
+      var validatephone = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入手机号'));
+        } else {
+          if(!this.isPoneAvailable(value)){
+            callback(new Error('请输入正确的手机号'))
+          }
+          callback();
+        }
+      };
       var validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
@@ -63,9 +72,10 @@ export default {
       };
       return {
         user: {
-          pass: '',
+          pass: '123456',
           name: '',
-          phone: ''
+          phone: '17839191581',
+          avatar: '../assets/reslongo.png'
         },
         rules2: {
            name: [
@@ -75,33 +85,68 @@ export default {
             { validator: validatePass, trigger: 'blur' }
           ],
           phone: [
-
+            { validator: validatephone, trigger: 'blur' }
           ]
         }
       };
     },
     methods: {
+
+      // 手机正则
+      isPoneAvailable: function(str) {  
+        var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;  
+        if (!myreg.test(str)) {  
+            return false;  
+        } else {  
+            return true;  
+        }  
+      },  
       // 注册函数
       registerUser () {
-        let name = this.user.name;
-        let pwd = this.user.pass;
-        
-
-        
-      this.axios({
-        method: 'post',
-        url: '/api/user/addUser',
-        data: {
-          username: name,
-          password: pwd
+        // let name = this.user.name;
+        // let phone = this.user.phone;
+        // let pwd = this.user.pass;
+        // let avatar = this.user.avatar;
+        var _this = this;
+        if ((this.user.name == '') || (this.phone == '') || (this.user.pass == '')) {
+          this.$message({
+              message: '内容不能为空',
+              type: 'error'
+            });
+            
         }
-        
-      })
-      .then((response) => {
-        console.log('注册成功');
-        }).cath((error) => {
-          console.log(error);
-        })
+        else{
+          this.axios.post('/api/users/register', {
+            name: this.user.name,
+            phone: this.user.phone,
+            password: this.user.pass,
+            avatar: this.user.avatar
+          })
+          .then(function (response) {
+            console.log(response.data.code);
+            let data = response.data;
+            if (data.code === 'success') {
+              console.log(data.msg);
+              _this.$message({
+                message: data.msg,
+                type: data.code
+              });
+              setTimeout(() => {
+              _this.$router.push('/login')
+              }, 2000);
+            } else if(data.code === 'error') {
+              console.log(data.msg);
+              _this.$message({
+                message: data.msg,
+                type: data.code
+              });
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        }
+
       },
 
 

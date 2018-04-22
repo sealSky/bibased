@@ -22,7 +22,7 @@
         </el-form-item>
         <el-form-item >
           <el-button type="primary"  @click="submitForm('user')">登录</el-button>
-          <p class="sign-msg">点击 “注册” 即表示您同意并愿意遵守简书</p>
+          <p class="sign-msg">点击 “登录” 即表示您同意并愿意遵守简书</p>
         </el-form-item>
       </el-form>
 
@@ -33,6 +33,7 @@
 
 <script>
 export default {
+  name: "Login",  
   data() {
       var checkName = (rule, value, callback) => {
         if (!value) {
@@ -40,11 +41,11 @@ export default {
         }
         setTimeout(() => {
           if (value.length < 2){
-              callback(new Error('必须大于两个字符'));
+              callback(new Error('请输入正确的昵称'));
           } else {
             callback();
           }
-        }, 1000);
+        }, 500);
       };
       var validatePass = (rule, value, callback) => {
         if (value === '') {
@@ -58,8 +59,9 @@ export default {
       };
       return {
         user: {
-          pass: '',
-          name: ''
+          pass: '123456',
+          name: 'wxy',
+          is_active: ''
         },
         rules2: {
            name: [
@@ -72,10 +74,55 @@ export default {
       };
     },
     methods: {
+      // 对象拷贝方法
+      copyObject(obj1) {
+        let obj2 = {};
+        for(let key in obj1){
+          obj2[key] = obj1[key];
+        }
+        return obj2;
+      },
       submitForm(formName) {
+        let _this = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            console.log('输入格式正确');
+            // 输入格式正确开始请求服务器验证
+            this.axios.post('/api/users/login', {
+              name: this.user.name,
+              password: this.user.pass
+            })
+            .then(function (response) {
+              let data = response.data;
+              let user = data.user;
+              user.is_active = true;
+              // console.log(data);
+              if(data.code === 'success') {
+                _this.$message({
+                  message: data.msg,
+                  type: data.code
+                });
+
+                setTimeout(() => {
+                  _this.$router.push({
+                    name: 'Index',
+                    params: {
+                      user
+                    }
+                  })
+                },1000)
+
+              } else if (data.code === 'error') {
+                  _this.$message({
+                    message: data.msg,
+                    type: data.code
+                  })
+              } 
+              else { //返回的不是这两种状态
+                console.log('发送未知的错误');
+              }
+            })
+
           } else {
             console.log('error submit!!');
             return false;
@@ -86,7 +133,6 @@ export default {
         this.$refs[formName].resetFields();
       }
     },
-  name: "Register"
 };
 </script>
 
