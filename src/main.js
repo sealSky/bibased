@@ -7,6 +7,8 @@ import router from './router'
 import Vuex from 'vuex'
 import axios from 'axios'
 
+import store from '@/store/index.js'
+
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/style/common/font_631887_6m66ttw1c2nvcxr/iconfont.css'
 
@@ -22,11 +24,13 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(Vuex)
 
+
 Vue.prototype.axios = axios
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store, //使用store
   components: { App },
   template: '<App/>'
 })

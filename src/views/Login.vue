@@ -73,6 +73,10 @@ export default {
         }
       };
     },
+     watch: {
+    // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
+      '$route': 'getParams'
+    },
     methods: {
       // 对象拷贝方法
       copyObject(obj1) {
@@ -112,6 +116,9 @@ export default {
                   })
                 },1000)
 
+                window.sessionStorage.setItem('user',JSON.stringify(user));
+                this.$store.commit( 'getUser', user );
+                
               } else if (data.code === 'error') {
                   _this.$message({
                     message: data.msg,

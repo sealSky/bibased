@@ -1,7 +1,7 @@
 <template>
   <div class="personal">
-      <Header></Header>
-      <div class="container person">
+      <Header :user="user"></Header>
+      <div class="container person body">
           <div class="main">
               <div class="main-top">
                   <a href="###" class="avatar">
@@ -55,6 +55,7 @@ import test from '../data/data.json'
 
 export default {
     name: 'Personal',
+    props: ['user'],
     components: {
         Header,
         List

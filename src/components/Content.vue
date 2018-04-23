@@ -1,5 +1,5 @@
 <template>
-  <div class="contents container">
+  <div class="contents container body">
       <div class="main">
           <!-- 热门话题 -->
           <div class="recommend-collection">
@@ -61,7 +61,6 @@ export default {
 <style scoped lang="less">
 .contents {
     display: flex;
-   
 
     .main {
         flex: 16;
