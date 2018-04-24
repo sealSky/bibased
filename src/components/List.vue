@@ -15,6 +15,14 @@
                     </div>
                     <a href="#" class="title" target="_blank">{{list.content.author.title.text}}</a>
                     <p class="abstract">{{list.content.author.abstract}}</p>
+                    <div class="meta">
+                        <a href="javascript:;"><i class="iconfont icon-yuedu"></i>
+                        31</a>
+                        <a href="javascript:;"><i class="iconfont icon-detailscomments"></i>
+                        31</a>
+                        <a href="javascript:;"><i class="iconfont icon-xihuan1"></i>
+                        31</a>
+                    </div>
                 </div>
                 <a href="#" class="wrap-img">
                     <img :src="list.wrap.img" class="img" />

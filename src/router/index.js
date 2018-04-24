@@ -13,6 +13,7 @@ export default new Router({
     {
       path: '/',
       name: 'Index',
+      meta: { title: "首页路口" },
       component: Index
     },
     {
@@ -33,6 +34,7 @@ export default new Router({
     {
       path: '/writer',
       name: 'writer',
+      meta: { title: "到岗候选人名单确认" },      
       component: Writer
     }
   ]

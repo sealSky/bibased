@@ -8,15 +8,16 @@ import Vuex from 'vuex'
 import axios from 'axios'
 
 import store from '@/store/index.js'
+// import editor from '@/js/editor.js'
 
 import 'element-ui/lib/theme-chalk/index.css';
-import '@/style/common/font_631887_6m66ttw1c2nvcxr/iconfont.css'
+import '@/style/common/font_icon/iconfont.css'
 
 // 自己写的样式
 import './style/base.less';
 import './style/common/sign.less';
 import './style/common/list.less';
-
+import './style/common/writer.less';
 
 
 

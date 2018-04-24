@@ -1,6 +1,6 @@
 <template>
   <div class="personal">
-      <Header :user="user"></Header>
+      <Header></Header>
       <div class="container person body">
           <div class="main">
               <div class="main-top">
@@ -8,13 +8,44 @@
                       <img src="../assets/images/default.jpg"  />
                   </a>
                   <div class="title">
-                      <router-link to="/user" class="name">{{users.name}}</router-link>
+                      <router-link to="/user" class="name">{{this.$store.state.user.name}}</router-link>
                   </div>
                   <div class="info">
                       <ul>
-                          <li v-for="(item, index) in users" :key="index" >
+                          <li>
                             <div class="meta-block">
-                                <a href="###">{{item}}</a>
+                                <a href="###">
+                                    <p>{{getMeta.followings_count}}</p>
+                                    关注
+                                    <i class="iconfont icon-you"></i>
+                                </a>
+                            </div>
+                          </li>
+                          <li>
+                            <div class="meta-block">
+                                <a href="###">
+                                    <p>{{getMeta.favorites_count}}</p>
+                                    粉丝
+                                    <i class="iconfont icon-you"></i>
+                                </a>
+                            </div>
+                          </li>
+                          <li>
+                            <div class="meta-block">
+                                <a href="###">
+                                    <p>{{getMeta.article_count}}</p>
+                                    文章
+                                    <i class="iconfont icon-you"></i>
+                                </a>
+                            </div>
+                          </li>
+                          <li>
+                            <div class="meta-block">
+                                <a href="###">
+                                    <p>{{getMeta.likes_count}}</p>
+                                    收获喜欢
+                                    <i class="iconfont icon-you"></i>
+                                </a>
                             </div>
                           </li>
                       </ul>
@@ -29,7 +60,7 @@
                    <span slot="label" @click="changeType('article')" ><i class="el-icon-tickets"></i>文章</span>
                 </el-tab-pane>
                 <el-tab-pane >
-                   <span slot="label" @click="changeType('trends')" ><i class="iconfont icon-tongzhi"></i>动态</span>
+                   <span slot="label" @click="changeType('trends')" ><i class="iconfont icon-xihuan"></i>喜欢的文章</span>
                 </el-tab-pane>
                  <el-tab-pane >
                    <span slot="label" @click="changeType('comments')" ><i class="iconfont icon-detailscomments"></i>最新评论</span>
@@ -55,20 +86,14 @@ import test from '../data/data.json'
 
 export default {
     name: 'Personal',
-    props: ['user'],
     components: {
         Header,
         List
     },
     data() {
         return {
-            users: {
-                
-                name: '离开以后',
-                follow: 1,
-                article: 10,
-                likes: 31,
-                img: '../assets/images/default.jpg',
+            user: {
+
             },
             personals: [
                 {
@@ -104,12 +129,13 @@ export default {
                 return this.lists;
             }
         },
-        getUser: function() {
+        getMeta: function() {
+            return this.$store.state.user || this.$store.state.defaultUser;
         }
     },
     methods: {
         handleClick(tab, event) {
-        // console.log(tab, event);
+        console.log(this.getMeta);
         },
         
         // 改变状态
@@ -118,6 +144,8 @@ export default {
         }
 
     },
+    created: function() {
+  },
     filters: {
         
     }
@@ -126,6 +154,7 @@ export default {
 
 <style lang="less" scoped>
 .person {
+    padding-top: 59px!important;
     display: flex;
     min-height: 600px;
 
@@ -158,11 +187,19 @@ export default {
                     li {
                         display: inline-block;
                     }
+                    li:last-child .meta-block {
+                        margin: 0;
+                        padding: 0;
+                        border: none;
+                    }
                     .meta-block {
                         font-size: 12px;
                         margin: 0 7px 6px 0;
                         padding: 0 7px 0 0;
                         border-right: 1px solid #f0f0f0;
+                        i {
+                            font-size: inherit;
+                        }
                     }
                     a {
                         color: #969696;

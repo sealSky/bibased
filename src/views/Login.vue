@@ -117,7 +117,7 @@ export default {
                 },1000)
 
                 window.sessionStorage.setItem('user',JSON.stringify(user));
-                this.$store.commit( 'getUser', user );
+                _this.$store.commit( 'getUser', user );
                 
               } else if (data.code === 'error') {
                   _this.$message({

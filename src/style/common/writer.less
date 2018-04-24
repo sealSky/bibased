@@ -1,0 +1,110 @@
+.writer {
+    display: flex;
+    overflow: hidden;
+    min-width: 750px;
+    height: 100%;
+    .writer-article {
+      flex: 2;
+      min-height: 100px;
+      position: relative;
+      height: 100%;
+      overflow-y: auto;
+      background-color: #eee;
+      color: #f2f2f2;
+      z-index: 100;
+      .new-article {
+        line-height: 20px;
+        font-size: 15px;
+        font-weight: 400;
+        padding: 20px 0 20px 25px;
+        cursor: pointer;
+        color: #595959;
+      }
+      .article-lists {
+        position: relative;
+        margin-bottom: 0;
+        background-color: #efe9d9;
+        border-top: 1px solid #d9d9d9;
+      }
+      .article-list {
+        position: relative;
+        height: 90px;
+        color: #595959;
+        background-color: #fff;
+        margin-bottom: 0;
+        padding: 15px 10px 15px 60px;
+        box-shadow: 0 0 0 1px #d9d9d9;
+        border-left: 5px solid transparent;
+        list-style: none;
+        line-height: 60px;
+        cursor: pointer;
+        user-select: none;
+        i {
+          position: absolute;
+          top: 30px;
+          left: 20px;
+          width: 22px;
+          height: 30px;
+        }
+        .article-name,
+        .article-content {
+          display: block;
+          height: 30px;
+          line-height: 30px;
+          margin-right: 40px;
+          overflow: hidden;
+          -o-text-overflow: ellipsis;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .article-name {
+          display: block;
+          height: 30px;
+          line-height: 30px;
+          margin-right: 40px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-size: 18px;
+        }
+        .article-content {
+          font-size: 14px;
+        }
+        active {
+          background-color: #e6e6e6;
+        }
+      }
+    } 
+    .writer-main {
+      padding-top: 25px;
+      position: relative;
+      min-height: 100px;
+      flex: 5;
+      .write-main-tic {
+        position: absolute;
+        right: 5px;
+        top: 2px;
+        font-size: 14px;
+      }
+      
+    }  
+    input {
+      outline: none;
+      border: none;
+    }
+    .back-button {
+      padding: 30px 18px 5px;
+      text-align: center;
+      a {
+        display: block;
+        font-size: 15px;
+        padding: 9px 0;
+        color: #ec7259;
+        border: 1px solid rgba(236,114,89,.8);
+        border-radius: 20px;
+        -webkit-transition: border-color .2s ease-in;
+        -o-transition: border-color .2s ease-in;
+        transition: border-color .2s ease-in;
+      }
+    }
+  }

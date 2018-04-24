@@ -12,9 +12,12 @@
           <a href="javascript:;" class="btn"><i class="iconfont icon-sousuokuang"></i></a>
         </div>
         <!-- 登陆注册 -->
+        <router-link to="/writer" target="_blank" class="link write-btn">
+          <i class="iconfont icon-xiezi"></i>
+          写文章
+        </router-link>
         <router-link to="/register" v-if="isActive" class="link reg">注册</router-link>
         <router-link to="/login" v-if="isActive" class="link">登录</router-link>
-        <router-link to="/user" v-if="isActive" class="link">个人中心</router-link>
         <div class="user" v-if="!isActive">
           <el-menu 
           :default-active="activeIndex" 
@@ -28,13 +31,29 @@
                   <img src="../assets/images/default.jpg" alt="缺失">
                 </a>
               </template>
-              <el-menu-item index="1-1">我的主页</el-menu-item>
-              <el-menu-item index="1-2">收藏的文章</el-menu-item>
-              <el-menu-item index="2-3">喜欢的文章</el-menu-item>
+              <el-menu-item index="1-1" class="link-icon" >
+                <i class="iconfont icon-yonghu-tianchong"></i>
+                <router-link to="/user" tag="span">我的主页</router-link>
+              </el-menu-item>
+              <el-menu-item index="1-2" class="link-icon" >
+                <i class="iconfont icon-msnui-love"></i>
+                <router-link to="/user" tag="span">喜欢的文章</router-link>
+              </el-menu-item>
+              <el-menu-item index="1-3" class="link-icon" >
+                <i class="iconfont icon-shezhi-tianchong"></i>
+                <router-link to="/user" tag="span">设置</router-link>
+              </el-menu-item>
+              <el-menu-item 
+              index="1-4" 
+              class="link-icon"
+              @click="cancle()"
+              >
+                <i class="iconfont icon-tuichu"></i>
+                <span>退出</span>
+              </el-menu-item>
             </el-submenu>
           </el-menu>
         </div>
-        <span  class="link" @click="test()">{{isActive}}</span>
       </div>
   </div>
 </template>
@@ -53,10 +72,27 @@ export default {
   // 静态函数
   methods: {
      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
+        console.log('1');
       },
-    test: function() {
-      console.log(this.$store.state.user.is_active);
+    cancle: function() {
+      this.$confirm('此操作将注销登录, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$store.commit('getUser', this.$store.state.defaultUser);
+          window.sessionStorage.removeItem('user');
+          this.$message({
+            type: 'success',
+            message: '退出成功!'
+          });
+          this.$router('/')
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消退出'
+          });          
+        });
     }
   },
   // 实时计算
@@ -87,8 +123,7 @@ export default {
      }
     }
     .user {
-      float: left;
-      margin-left: 100px;
+      float: right;
       height: 100%;
       .avatar {
         position: relative;
@@ -98,10 +133,6 @@ export default {
         display: inline-block;
       }
     }
-    .user:hover {
-        background-color: red;
-
-    }
     
     .nav-main {
       height: 58px;
@@ -109,7 +140,7 @@ export default {
       color: #333;
       box-sizing: border-box;
       .home {
-        padding-top: 15px;
+        margin-top: 15px;
         color: #ea6f5a;
         float: left;
         font-size: 18px;
@@ -117,7 +148,7 @@ export default {
       .select-bar {
         margin-left: 50px;
         float: left;
-        padding-top: 15px;
+        margin-top: 15px;
         .select-input {
           border-radius: 30px;
           border: 1px solid #ccc;
@@ -139,14 +170,43 @@ export default {
       float: right;
       height: 28px;
       margin: 0 10px;
+      margin-top: 15px;
+    }
+    .write-btn {
+      float: right;
+      text-align: center;
+      width: 100px;
+      height: 40px;
+      line-height: 40px;
+      margin: 8px 15px 0;
+      border-radius: 20px;
+      font-size: 15px;
+      color: #fff;
+      background-color: #ea6f5a;
+      i {
+        font-size: 18px;
+      }
     }
     .reg {
       border: 1px solid #ea6f5a;
-      padding: 0 10px;
+      padding-left: 10px;
+      padding-right: 10px;
       border-radius: 15px;
     }
     .reg:hover {
      color: #ea6f5a;
+    }
+  }
+
+  .link-icon {
+    i {
+      color: #ea6f5a;
+      margin-right: 15px;
+      font-size: 18px;
+    }
+    span {
+      font-weight: 400;
+      color: #333;
     }
   }
 </style>

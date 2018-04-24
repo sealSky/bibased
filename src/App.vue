@@ -10,13 +10,27 @@ export default {
   name: 'App',
   data() {
     return {
-       user: {
-          name: ''
-        }
+      users: {
+      answers_count: 0,
+      article_count: 0,
+      avatar: '"../assets/reslongo.png"',
+      comments_count: 0,
+      created_at: null,
+      favorites_count: 0,
+      followers_count: 0,
+      followings_count: 0,
+      id: 0,
+      is_active: false,
+      likes_count: 0,
+      name: '',
+      password: '',
+      phone: '',
+      resume: null
+      }
     }
   },
    methods: {
-    
+     
   },
   created: function() {
     let user = JSON.parse(window.sessionStorage.getItem('user'));
@@ -32,10 +46,5 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
+
 </style>

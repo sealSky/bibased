@@ -1,8 +1,7 @@
 <template>
-  <div class="Index">
+  <div class="index body">
     <Header></Header>
     <Content></Content>
-   
   </div>
 </template>
 
@@ -18,8 +17,7 @@ export default {
   },
     data () {
       return {
-        name: '',
-        msg: '你爱好'
+        
       }
   },
   // 静态方法
@@ -38,6 +36,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.index {
+    padding-top: 59px!important;
+}
 </style>
