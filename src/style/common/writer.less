@@ -18,6 +18,9 @@
         font-weight: 400;
         padding: 20px 0 20px 25px;
         cursor: pointer;
+        color: #999;
+      }
+      .new-article:hover {
         color: #595959;
       }
       .article-lists {
@@ -39,10 +42,10 @@
         line-height: 60px;
         cursor: pointer;
         user-select: none;
-        i {
+        .head-icon {
           position: absolute;
-          top: 30px;
           left: 20px;
+          font-size: 30px;
           width: 22px;
           height: 30px;
         }
@@ -70,9 +73,50 @@
         .article-content {
           font-size: 14px;
         }
-        active {
-          background-color: #e6e6e6;
+        .article-set {
+          float: right;
+          font-size: 16px;
+          width: 40px;
+          text-align: center;
+          position: relative;
+          min-height: 30px;
+          max-height: 50px;
         }
+        
+      }
+      .active {
+        background-color: #e6e6e6;
+        border-left-color: #ec7259;
+      }
+      .set-options {
+        top: 100%;
+        display: none;
+        position: absolute;
+        z-index: 99;
+        right: 0;
+        font-size: 14px;
+        box-shadow: 0 5px 10px rgba(0,0,0,.2);
+        list-style: none;
+        background-color: #fff;
+        color: #595959;
+        border-radius: 6px;
+        .options-option {
+          padding: 10px 20px;
+          line-height: 20px;
+          min-width: 100px;
+          white-space: nowrap;
+          text-align: left;
+          position: relative;
+          color: #595959;
+          border-bottom: 1px solid #d9d9d9;
+        }
+        .options-option:hover {
+          background-color: #595959;
+          color: #fff;
+        }
+      }
+      .set-show {
+        display: block;
       }
     } 
     .writer-main {

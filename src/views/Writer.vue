@@ -5,20 +5,48 @@
       <div class="back-button">
         <router-link to="/">回首页</router-link>
       </div>
-      <div class="new-article">
+      
+      <ul class="article-lists">
+        <li 
+        v-for="(item, index) in articles"
+        :key="index"
+        :class="{'article-list':true, 'active':count === index}"
+        @click="changeActive(index)"
+        >
+          <i class="head-icon iconfont icon-wenzhang1"></i>
+          <div 
+          class="article-set"
+          @click="handleSetClick($event)"
+          >
+              <i class="iconfont icon-shezhi"></i>
+              <span>
+                <ul 
+                class="set-options"
+                >
+                <!-- @click="showSet($event)" -->
+                
+                  <li class="options-option">
+                    <i class="iconfont icon-duihao"></i>
+                    已发布
+                  </li>
+                  <li class="options-option delete-article" @click="deleteArticle(index)">
+                    <i class="iconfont icon-shanchu"></i>
+                    删除
+                  </li>
+                </ul>
+              </span>
+          </div>
+          <span class="article-name">{{item.title}}</span>
+          <span class="article-content">{{item.body}}</span>
+        </li>
+      </ul>
+      <div 
+      class="new-article"
+      @click="newArticle()"
+      >
         <i class="iconfont icon-tianjia"></i>
         <span>新建文章</span>
       </div>
-      <ul class="article-lists">
-        <li
-        class="article-list"
-
-        >
-          <i class="iconfont icon-tianjia"></i>
-          <span class="article-name">今天</span>
-          <span class="article-content">今天开始进行毕业设计系统的开发，争取在五一之前把系统做好。</span>
-        </li>
-      </ul>
     </div>
 
     <div class="writer-main">
@@ -34,9 +62,6 @@
       <button v-on:click="getContent">查看内容</button>
       
     </div>
-      
-   
-
   </div>
 </template>
 
@@ -47,18 +72,79 @@ export default {
     name: 'writer',
     data () {
         return {
+            isA: '1',
+            count: '',
+            articles: [
+              {
+                id: 1,
+                title: '今天',
+                body: '今天开始进行毕业设计系统的开发，争取在五一之前把系统做好。',
+                user_id: 4,
+                comments_count: 0,
+                answers_count: 0,
+                followers_count: 0,
+                close_comment: 0,
+                is_hidden: false
+             },
+             {
+                id: 1,
+                title: '今天',
+                body: '今天开始进行毕业设计系统的开发，争取在五一之前把系统做好。',
+                user_id: 4,
+                comments_count: 0,
+                answers_count: 0,
+                followers_count: 0,
+                close_comment: 0,
+                is_hidden: false
+             }
+            ],
             editorContent: ''
         }
     },
     methods: {
        getContent: function () {
             alert(this.editorContent)
+        },
+        changeActive: function (index) {
+          this.count = index;
+        },
+        showSet: function (event) {
+          let target = event.target || event.srcElement;
+          target.parentNode.classList.remove('set-show');
+
+        },
+
+        handleSetClick: function(event) {
+          let cause = event.target || event.srcElement;
+          let options = event.currentTarget.querySelector('.set-options');
+          options.classList.toggle('set-show');
+        },
+        // 新建文章函数
+        newArticle: function () {
+          console.log('new');
+          this.articles.push({
+            id: 1,
+            title: '今天',
+            body: '',
+            user_id: 4,
+            comments_count: 0,
+            answers_count: 0,
+            followers_count: 0,
+            close_comment: 0,
+            is_hidden: false
+          });
+        },
+        deleteArticle: function (index) {
+            this.articles.splice(index, 1);
+            let options = document.querySelectorAll('.set-options');
+            console.log(this.articles);
         }
     },
     mounted() {
         var editor = new E('#editorElem');
         editor.customConfig.onchange = (html) => {
           this.editorContent = html
+          
         }
         editor.customConfig.menus = [
           'head',  // 标题
@@ -71,13 +157,33 @@ export default {
           'undo',  // 撤销
           'redo'  // 重复
         ]
-        editor.create();
+        editor.create();  
+        let articles = document.querySelector('.article-lists');
+        let options = document.querySelectorAll('.set-options');
+
+        document.onclick = function (ev) {
+
+        let target = ev.target || ev.srcElement;
+        // console.log(target);
+        if (target.nodeName.toUpperCase() !== 'LI') {
+          
+        }
+　　　　}
+
+      },
+
+      destroyed () {
       }
 }
 </script>
 
-<style scoped lang="less">
-
+<style lang="less">
+  html {
+    height: 100%;
+  }
+  body {
+      height: 100%;
+  }
   .writer {
     .title-input {
         width: 100%;
