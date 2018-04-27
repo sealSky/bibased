@@ -4,10 +4,9 @@ import Vue from 'vue'
 import ElementUI from 'element-ui';
 import App from './App'
 import router from './router'
-import Vuex from 'vuex'
 import axios from 'axios'
 
-import store from '@/store/index.js'
+import store from './store'
 // import editor from '@/js/editor.js'
 
 import 'element-ui/lib/theme-chalk/index.css';
@@ -23,7 +22,6 @@ import './style/common/writer.less';
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-Vue.use(Vuex)
 
 
 Vue.prototype.axios = axios

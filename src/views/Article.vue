@@ -1,7 +1,12 @@
 <template>
-  <div class="article">
+  <div class="article-info">
       <!-- 顶部 -->
       <Header></Header>
+      <div class="post">
+        <div class="article">
+            <h1>测试</h1>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -12,6 +17,10 @@ export default {
     name: 'Article',
     components: {
         Header
+    },
+    methods: {
+        test: function() {
+        }
     }
 }
 </script>

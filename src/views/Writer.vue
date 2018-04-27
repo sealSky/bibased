@@ -10,30 +10,28 @@
         v-for="(item, index) in articles"
         :key="index"
         :class="{'article-list':true, 'active':count === index}"
-        @click="changeActive(index)"
+        @click="changeActive(index, item.id)"
         >
           <i class="head-icon iconfont icon-wenzhang1"></i>
           <div 
           class="article-set"
-          @click="handleSetClick($event)"
+         @click="deleteArticle(item.id)"
           >
-              <i class="iconfont icon-shezhi"></i>
-              <span>
+              <i class="iconfont icon-shanchu"></i>
+              <!-- <span>
                 <ul 
                 class="set-options"
                 >
-                <!-- @click="showSet($event)" -->
-                
-                  <li class="options-option">
+                  <li class="options-option" >
                     <i class="iconfont icon-duihao"></i>
-                    已发布
+                    发布
                   </li>
                   <li class="options-option delete-article" @click="deleteArticle(index)">
                     <i class="iconfont icon-shanchu"></i>
                     删除
                   </li>
                 </ul>
-              </span>
+              </span> -->
           </div>
           <span class="article-name">{{item.title}}</span>
           <span class="article-content" v-html="item.body"></span>
@@ -48,8 +46,9 @@
       </div>
     </div>
 
+    <!-- 文章编写界面 -->
     <div class="writer-main">
-      <button class="release" @click="releaseArticle()">发布</button>
+      <button class="release"  @click="reviseArticle()">修改</button>
       <div class="title">
         <input
         class="title-input"
@@ -57,8 +56,10 @@
         v-model="title"
         />
       </div>
-      <div id="editorElem" style="text-align:left"></div>
-      <button v-on:click="getContent">查看内容</button>
+      <div id="editorElem" style="text-align:left;">
+        <div  v-html="body"></div>
+      </div>
+      </div>
     </div>
   </div>
 </template>
@@ -70,12 +71,14 @@ export default {
     name: 'writer',
     data () {
         return {
+            firstId: '',
             isA: '1',
             count: '',
             title: this.currentTime(),
             body: '',
             articles: [],
-            editorContent: ''
+            id: '',
+            editor: null
         }
     },
     methods: {
@@ -87,97 +90,122 @@ export default {
                 return e
             }
         })
-    },
-       getContent: function () {
-            alert(this.editorContent)
-        },
-        changeActive: function (index) {
-          this.count = index;
-        },
-        showSet: function (event) {
-          let target = event.target || event.srcElement;
-          target.parentNode.classList.remove('set-show');
-
-        },
-
-        handleSetClick: function(event) {
-          let cause = event.target || event.srcElement;
-          let options = event.currentTarget.querySelector('.set-options');
-          options.classList.toggle('set-show');
-        },
-        // 新建文章函数
-        newArticle: function () {
-          console.log('new');
-          this.articles.push({
-            id: 1,
-            title: this.currentTime(),
-            body: '',
-            user_id: 4,
-            comments_count: 0,
-            answers_count: 0,
-            followers_count: 0,
-            close_comment: 0,
-            is_hidden: false
-          });
-        },
-        deleteArticle: function (index) {
-            this.articles.splice(index, 1);
-            let options = document.querySelectorAll('.set-options');
-            console.log(this.articles);
-        },
-        currentTime() {
-          let currentTime =  new Date();
-          let year = currentTime.getFullYear();
-          let moth = currentTime.getMonth()+1;
-          let day = currentTime.getDate();
-          return year + '-' + moth + '-' + day;
-        },
-        // 发布文章
-        releaseArticle() {
-          let _this = this;
-          _this.axios.post('api/writes/userArticle',{
-            title: _this.title,
-            body: '你好啊，2018',
-            user_id: _this.$store.state.user.id
-          })
-          .then(function (response) {
-            let data = response.data;
-            console.log(data);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-        },
-        getArticles() {
-          let _this = this;
-          _this.axios.post('api/writes/getArticles',{
-            user_id: _this.$store.state.user.id
-          })
-          .then(function (response) {
-            let data = response.data.result;
-            _this.articles = _this.copyArr(data);
-            console.log(data);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+      },
+      changeActive: function (index, id) {
+        this.count = index;
+        if(id) {
+        this.getArticle(id);
         }
+      },
+      showSet: function (event) {
+        let target = event.target || event.srcElement;
+        target.parentNode.classList.remove('set-show');
+
+      },
+
+      handleSetClick: function(event) {
+        let cause = event.target || event.srcElement;
+        let options = event.currentTarget.querySelector('.set-options');
+        options.classList.toggle('set-show');
+      },
+      // 新建文章函数
+      newArticle: function () {
+        let _this = this;
+        _this.axios.post('api/writes/newArticle',{
+          title: this.currentTime(),
+          body: '',
+          user_id: _this.$store.state.user.id
+        })
+        .then(function (response) {
+          let data = response.data;
+          console.log(data);
+          _this.getArticles();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      },
+      // 删除文章
+      deleteArticle: function (id) {
+        let _this = this;
+        _this.axios.post('api/writes/deleteArticle',{
+          user_id: _this.$store.state.user.id,
+          id: id
+        })
+        .then(function (response) {
+          let data = response.data;
+          // 重新获取数据库的数据
+          _this.getArticles();
+          console.log(data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      },
+      // 获取当前日期
+      currentTime() {
+        let currentTime =  new Date();
+        let year = currentTime.getFullYear();
+        let moth = currentTime.getMonth()+1;
+        let day = currentTime.getDate();
+        return year + '-' + moth + '-' + day;
+      },
+        // 发布文章
+        // 修改文章
+      reviseArticle() {
+          let _this = this;
+        _this.axios.post('api/writes/reviseArticle',{
+          title: _this.title,
+          body: _this.Editor.txt.html(),
+          id: _this.id
+        })
+        .then(function (response) {
+          let data = response.data;
+          _this.getArticles();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      },
+      // 获取用户所有文章
+      getArticles() {
+        let _this = this;
+        _this.axios.post('api/writes/getArticles',{
+          user_id: _this.$store.state.user.id
+        })
+        .then(function (response) {
+          let data = response.data.result;
+          _this.articles = _this.copyArr(data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      },
+      // 获取单个文章
+      getArticle(id) {
+        let _this = this;
+        _this.axios.post('api/writes/getArticle',{
+          id: id
+        })
+        .then(function (response) {
+          let data = response.data.result[0];
+          _this.title = data.title;
+          _this.body = data.body;
+          _this.id = data.id;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      },
     },
     // 实时计算
     computed: {
       // 获取从后台获取用户的所有文章
-      article() {
-
-      }
-     
     },
     mounted() {
-
-      let editor = new E('#editorElem');
-      editor.customConfig.onchange = (html) => {
-        this.editorContent = html
-      }
-      editor.customConfig.menus = [
+      let _this = this;
+      _this.Editor = new E('#editorElem');
+      _this.Editor.customConfig.menus = [
         'head',  // 标题
         'bold',  // 粗体
         'fontSize',  // 字号
@@ -188,8 +216,15 @@ export default {
         'undo',  // 撤销
         'redo'  // 重复
       ]
-      editor.create(); 
+      _this.Editor.customConfig.height = "100%";
+      _this.Editor.create(); 
+
+      function getBody() {
+        return editor.txt.html();
+      }
+
       this.getArticles();
+      this.changeActive(0);
 
       // 获取当前登录的用户信息
       let user = JSON.parse(window.localStorage.getItem('user'));
@@ -204,11 +239,13 @@ export default {
         },2000)
       }
 
+      let wetextContainer = document.querySelector('.w-e-text-container');
+      wetextContainer.style.height = '100%';
 
       },
 
       destroyed () {
-
+        
       }
 }
 </script>
@@ -239,6 +276,9 @@ export default {
         text-overflow: ellipsis;
         white-space: nowrap;
       }
+  }
+  #editorElem {
+    height: 500px;
   }
 
 </style>
