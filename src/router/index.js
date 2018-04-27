@@ -5,6 +5,7 @@ import Register from '@/views/Register'
 import Login from '@/views/Login'
 import Personal from '@/views/Personal'
 import Writer from '@/views/Writer'
+import Article from '@/views/Article'
 
 Vue.use(Router)
 
@@ -34,8 +35,12 @@ export default new Router({
     {
       path: '/writer',
       name: 'writer',
-      meta: { title: "到岗候选人名单确认" },      
       component: Writer
+    },
+    {
+      path: '/article',
+      name: 'article',
+      component: Article
     }
   ]
 })

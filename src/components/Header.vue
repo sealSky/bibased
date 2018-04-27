@@ -16,6 +16,7 @@
           <i class="iconfont icon-xiezi"></i>
           写文章
         </router-link>
+        <router-link to="/article" target="_blank" class="link">文章</router-link>
         <router-link to="/register" v-if="isActive" class="link reg">注册</router-link>
         <router-link to="/login" v-if="isActive" class="link">登录</router-link>
         <div class="user" v-if="!isActive">
@@ -81,7 +82,7 @@ export default {
           type: 'warning'
         }).then(() => {
           this.$store.commit('getUser', this.$store.state.defaultUser);
-          window.sessionStorage.removeItem('user');
+          window.localStorage.removeItem('user');
           this.$message({
             type: 'success',
             message: '退出成功!'

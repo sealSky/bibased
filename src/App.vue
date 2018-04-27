@@ -33,7 +33,7 @@ export default {
      
   },
   created: function() {
-    let user = JSON.parse(window.sessionStorage.getItem('user'));
+    let user = JSON.parse(window.localStorage.getItem('user'));
     if(user) {
       this.$store.commit( 'getUser', user );
     }

@@ -116,7 +116,7 @@ export default {
                   })
                 },1000)
 
-                window.sessionStorage.setItem('user',JSON.stringify(user));
+                window.localStorage.setItem('user',JSON.stringify(user));
                 _this.$store.commit( 'getUser', user );
                 
               } else if (data.code === 'error') {
