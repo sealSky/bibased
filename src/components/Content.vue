@@ -11,9 +11,10 @@
           <!-- 文章列表 -->
           <div id="list-container">
               <ul class="note-list">
-                  <li class="have-img" v-for="list in lists" :key="list.index">
+                  <div @click="readArticle(1)">测试</div>
+                  <li class="have-img" v-for="list in article" :key="list.index">
                       <div class="content">
-                          <div class="author">
+                          <!-- <div class="author">
                               <a href="#" class="avatar">
                                   <img class="img" :src="list.content.author.avatar.img" >
                               </a>
@@ -21,33 +22,42 @@
                                   <a href="#" class="nickname">{{list.content.author.info.nickname.text}}</a>
                                   <span class="time">{{list.content.author.info.time}}</span>
                               </div>
-                          </div>
-                        <a href="#" class="title" target="_blank">{{list.content.author.title.text}}</a>
-                        <p class="abstract">{{list.content.author.abstract}}</p>
+                          </div> -->
+                        <a  class="title" target="_blank" >{{list.title}}</a>
+                        <p class="abstract" v-html="list.text"></p>
                         <div class="meta">
-                            <a href="javascript:;"><i class="iconfont icon-yuedu"></i>
-                            31</a>
-                            <a href="javascript:;"><i class="iconfont icon-detailscomments"></i>
-                            31</a>
-                            <a href="javascript:;"><i class="iconfont icon-xihuan1"></i>
-                            31</a>
+                            <a href="javascript:;">
+                                <i class="iconfont icon-yuedu"></i>
+                                {{ list.reads_count }}
+                            </a>
+                            <a href="javascript:;">
+                                <i class="iconfont icon-detailscomments"></i>
+                                {{ list.comments_count }}
+                            </a>
+                            <a href="javascript:;">
+                                <i class="iconfont icon-xihuan1"></i>
+                                 {{ list.followers_count }}
+                            </a>
                         </div>
                       </div>
                       <a href="#" class="wrap-img">
-                          <img :src="list.wrap.img" class="img" />
+                          <img src="//upload-images.jianshu.io/upload_images/10186827-0a2191523be89352.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240" class="img" />
                       </a>
                   </li>
               </ul>
           </div>
       </div>
       <div class="aside">
-          
+          <span @click="getArticleAll()">测试</span>
+          <br>
+          <span @click="test()">测试21</span>
       </div>
   </div>
 </template>
 
 <script>
 import test from '../data/data.json'
+import { mapState } from '../../../web/douban/node_modules/vuex';
 
 export default {
 
@@ -56,9 +66,61 @@ export default {
     data() {
         return {
             recommend: test.body.recommend,
-            lists: test.body.lists
+            lists: test.body.lists,
+            article: []
         }
-    }
+    },
+    methods: {
+        readArticle: function (id, article) {
+            this.$router.push({
+                path: '/p' + id
+            })
+        }
+    },
+    computed: {
+        // 获取Vuex State from store/modules/articles
+        ...mapState({
+            articles: state => state.articles.articles
+        })
+    },
+    methods: {
+        copyArr: function (arr){
+            return arr.map((e)=>{
+                if(typeof e === 'object'){
+                    return Object.assign({},e)
+                }else{
+                    return e
+                }
+            })
+        },
+        // 获取所有文章
+        getArticleAll: function(num) {
+            let _this = this;
+            _this.axios.post('/api/article/getArticleAll', {
+                num: num,
+            }).then(function (response) {
+                let data = response.data.result;
+                console.log(data);
+                _this.$store.commit( 'loadArticles', data );
+                _this.article = _this.copyArr(data);
+                
+            }).catch(function (error) {
+                console.log(error);
+            })
+        },
+        test: function() {
+            console.log(this.$store.state.articles.articles);
+            console.log(this.article);
+        }
+    },
+
+    // 实例创建前钩子函数
+    mounted() {
+        //执行获取所有文章函数
+        this.getArticleAll();
+        // 赋值给articles
+    },
+   
 
 }
 </script>

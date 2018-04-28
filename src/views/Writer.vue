@@ -111,7 +111,7 @@ export default {
       // 新建文章函数
       newArticle: function () {
         let _this = this;
-        _this.axios.post('api/writes/newArticle',{
+        _this.axios.post('api/article/newArticle',{
           title: this.currentTime(),
           body: '',
           user_id: _this.$store.state.user.id
@@ -128,7 +128,7 @@ export default {
       // 删除文章
       deleteArticle: function (id) {
         let _this = this;
-        _this.axios.post('api/writes/deleteArticle',{
+        _this.axios.post('api/article/deleteArticle',{
           user_id: _this.$store.state.user.id,
           id: id
         })
@@ -154,9 +154,10 @@ export default {
         // 修改文章
       reviseArticle() {
           let _this = this;
-        _this.axios.post('api/writes/reviseArticle',{
+        _this.axios.post('api/article/reviseArticle',{
           title: _this.title,
           body: _this.Editor.txt.html(),
+          text: _this.Editor.txt.text().slice(0, 80) + '...',
           id: _this.id
         })
         .then(function (response) {
@@ -170,7 +171,7 @@ export default {
       // 获取用户所有文章
       getArticles() {
         let _this = this;
-        _this.axios.post('api/writes/getArticles',{
+        _this.axios.post('api/article/getArticles',{
           user_id: _this.$store.state.user.id
         })
         .then(function (response) {
@@ -184,13 +185,14 @@ export default {
       // 获取单个文章
       getArticle(id) {
         let _this = this;
-        _this.axios.post('api/writes/getArticle',{
+        _this.axios.post('api/article/getArticle',{
           id: id
         })
         .then(function (response) {
           let data = response.data.result[0];
           _this.title = data.title;
           _this.body = data.body;
+          _this.text = data.text;
           _this.id = data.id;
         })
         .catch(function (error) {

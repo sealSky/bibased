@@ -37,9 +37,104 @@
                     </div>
                 </div>
                 <div class="fllow">
-                    <div class="btn">
-                        
+                    <div class="btn fllow-btn">
+                        <i class="iconfont icon-jiahao"></i>
+                        <span>关注</span>
                     </div>
+                </div>
+            </div>
+            <!-- 评论 -->
+            <div>
+                <div class="comment-list">
+                    <!-- 发表评论 -->
+                    <div class="new-comment">
+                        <a href="javascript:;" class="avatar">
+                            <img src="../assets/images/default.jpg" alt="缺失">
+                        </a>
+                        <textarea v-model="comment" placeholder="请写下评论..."></textarea>
+                        <div class="write-function-block">
+                            <div class="btn btn-send">
+                                发表
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 更多评论 -->
+                    <div id="normal-comment-list" class="normal-comment-list">
+                        <div>
+                            <!-- 作者信息 -->
+                            <div class="top-title">
+                                <span>202条评论</span>
+                                <a class="author-only">只看作者</a>
+                                 <div class="pull-right">
+                                    <a >按喜欢排序</a>
+                                    <a >按时间正序</a>
+                                    <a >按时间倒序</a>
+                                </div>
+                            </div>
+                            <!-- 单条评论 -->
+                            <div class="comment">
+                                <!-- 评论的信息 -->
+                                <div class="comment-body">
+                                    <div class="author">
+                                        <div class="v-tooltip-content">
+                                             <a href="javascript:;" class="avatar">
+                                                <img src="../assets/images/default.jpg" alt="缺失">
+                                            </a>
+                                        </div>
+                                        <div class="info">
+                                            <a class="name">冲浪小鱼儿</a>
+                                            <div class="meta">
+                                                <span>12楼 · 2018.03.20 15:27</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 内容 -->
+                                    <div class="comment-wrap">
+                                        <p>高老师，针砭时弊，敢说真话，我支持！顶你，顶你，顶你，顶你，顶你，顶你……全部手打，就是顶你！</p>
+                                        <div class="tool-group">
+                                            <a >
+                                                <i class="iconfont icon-pinglun1"></i>
+                                                <span>回复</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- 回复的评论 -->
+                                    <div class="sub-comment-list">
+                                        <div class="sub-comment">
+                                           <div class="p">
+                                                <div class="v-tooltip-content">
+                                                    <a >Jane漂漂</a>：
+                                                </div>
+                                                <span>
+                                                    <a class="maleskine-author">
+                                                        @冲浪小鱼儿
+                                                    </a>
+                                                     小鱼啊！我看到了真爱的模样，激动啊！😂😂😂😂
+                                                </span>
+                                           </div>
+                                           <div class="sub-tool-group">
+                                                <span>2018.03.20 15:29</span>
+                                                <a >
+                                                    <i class="iconfont icon-pinglun1"></i>
+                                                    <span>回复</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="new-comment">
+                                            <textarea v-model="comment" placeholder="请写下评论..."></textarea>
+                                            <div class="write-function-block">
+                                                <div class="btn btn-send">
+                                                    发表
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -58,7 +153,8 @@ export default {
     data() {
         return {
             article: {},
-            users: {}
+            users: {},
+            comment: ''
         }
     },
     methods: {
@@ -67,7 +163,7 @@ export default {
            // 获取单个文章
         getArticle(id) {
             let _this = this;
-            _this.axios.post('api/writes/getArticle',{
+            _this.axios.post('api/article/getArticle',{
                 id: id
             })
             .then(function (response) {
