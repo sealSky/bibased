@@ -75,7 +75,7 @@ export default {
           pass: '123456',
           name: '',
           phone: '17839191581',
-          avatar: '../assets/reslongo.png'
+          avatar: '/static/images/default.jpg'
         },
         rules2: {
            name: [
@@ -113,7 +113,6 @@ export default {
               message: '内容不能为空',
               type: 'error'
             });
-            
         }
         else{
           this.axios.post('/api/users/register', {

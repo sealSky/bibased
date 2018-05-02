@@ -11,19 +11,18 @@
           <!-- 文章列表 -->
           <div id="list-container">
               <ul class="note-list">
-                  <div @click="readArticle(1)">测试</div>
                   <li class="have-img" v-for="list in article" :key="list.index">
                       <div class="content">
-                          <!-- <div class="author">
+                          <div class="author">
                               <a href="#" class="avatar">
-                                  <img class="img" :src="list.content.author.avatar.img" >
+                                  <img class="img" :src="list.author.avatar" >
                               </a>
                               <div class="info">
-                                  <a href="#" class="nickname">{{list.content.author.info.nickname.text}}</a>
-                                  <span class="time">{{list.content.author.info.time}}</span>
+                                  <a href="#" class="nickname">{{list.author.name}}</a>
+                                  <span class="time">{{list.updated_at}}</span>
                               </div>
-                          </div> -->
-                        <a  class="title" target="_blank" >{{list.title}}</a>
+                          </div>
+                        <a href="javascript:;"  class="title" target="_blank" @click="readArticle(list.id)" >{{list.title}}</a>
                         <p class="abstract" v-html="list.text"></p>
                         <div class="meta">
                             <a href="javascript:;">
@@ -57,7 +56,7 @@
 
 <script>
 import test from '../data/data.json'
-import { mapState } from '../../../web/douban/node_modules/vuex';
+import { mapState } from '../../node_modules/vuex';
 
 export default {
 
@@ -68,13 +67,6 @@ export default {
             recommend: test.body.recommend,
             lists: test.body.lists,
             article: []
-        }
-    },
-    methods: {
-        readArticle: function (id, article) {
-            this.$router.push({
-                path: '/p' + id
-            })
         }
     },
     computed: {
@@ -108,9 +100,30 @@ export default {
                 console.log(error);
             })
         },
+        // 获取所有文章测试
+        getArticleAllTest: function(num) {
+            let _this = this;
+            _this.axios.post('/api/article/getArticleAll', {
+                num: num,
+            }).then(function (response) {
+                let data = response.data.result;
+                console.log(data);
+                
+            }).catch(function (error) {
+                console.log(error);
+            })
+        },
         test: function() {
             console.log(this.$store.state.articles.articles);
             console.log(this.article);
+        },
+        readArticle: function (id, article) {
+            let routeData = this.$router.resolve({ path: '/p/' + id });
+            window.open(routeData.href, '_blank');
+            // this.$router.push({
+            //     name: 'Article'
+            // });
+            // console.log(this.$router);
         }
     },
 

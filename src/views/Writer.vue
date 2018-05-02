@@ -114,7 +114,8 @@ export default {
         _this.axios.post('api/article/newArticle',{
           title: this.currentTime(),
           body: '',
-          user_id: _this.$store.state.user.id
+          user_id: _this.$store.state.user.id,
+          created_at: _this.currentTime()
         })
         .then(function (response) {
           let data = response.data;
@@ -153,16 +154,21 @@ export default {
         // 发布文章
         // 修改文章
       reviseArticle() {
-          let _this = this;
+        let _this = this;
         _this.axios.post('api/article/reviseArticle',{
           title: _this.title,
           body: _this.Editor.txt.html(),
           text: _this.Editor.txt.text().slice(0, 80) + '...',
-          id: _this.id
+          id: _this.id,
+          updated_at: _this.currentTime()
         })
         .then(function (response) {
           let data = response.data;
           _this.getArticles();
+          _this.$message({
+            message: '修改成功',
+            type: 'success'
+          })
         })
         .catch(function (error) {
           console.log(error);

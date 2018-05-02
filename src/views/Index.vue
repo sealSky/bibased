@@ -6,6 +6,8 @@
 </template>
 
 <script>
+
+// 引入组件
 import Header from '@/components/Header.vue'
 import Content from '@/components/Content.vue'
 

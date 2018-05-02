@@ -34,17 +34,17 @@ export default new Router({
     },
     {
       path: '/writer',
-      name: 'writer',
+      name: 'Writer',
       component: Writer
     },
     {
       path: '/article',
-      name: 'article',
+      name: 'Article',
       component: Article
     },
     {
       path: '/p/:id',
-      name: 'article',
+      name: 'Article',
       component: Article
     }
   ]

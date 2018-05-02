@@ -28,7 +28,6 @@
                     <img :src="list.wrap.img" class="img" />
                 </a>
             </li>
-            {{test}}
         </ul>
     </div>
 </template>
@@ -36,7 +35,7 @@
 <script>
 export default {
    
-    props: ['lists', 'test'],
+    props: ['lists'],
 
      data () {
         return {
