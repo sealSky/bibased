@@ -128,13 +128,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -158,9 +156,7 @@ export default {
         }
     },
     methods: {
-        test: function() {
-        },
-           // 获取单个文章
+        // 获取单个文章
         getArticle(id) {
             let _this = this;
             _this.axios.post('api/article/getArticle',{

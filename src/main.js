@@ -14,6 +14,7 @@ import '@/style/common/font_icon/iconfont.css'
 
 // 自己写的样式
 import './style/base.less';
+import './style/header.less';
 import './style/common/sign.less';
 import './style/common/list.less';
 import './style/common/writer.less';

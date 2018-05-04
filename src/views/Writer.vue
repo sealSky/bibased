@@ -66,6 +66,7 @@
 
 <script>
 import E from 'wangeditor'
+import { mapState } from 'vuex'
 
 export default {
     name: 'writer',
@@ -76,7 +77,6 @@ export default {
             count: '',
             title: this.currentTime(),
             body: '',
-            articles: [],
             id: '',
             editor: null
         }
@@ -97,10 +97,12 @@ export default {
         this.getArticle(id);
         }
       },
-      showSet: function (event) {
-        let target = event.target || event.srcElement;
-        target.parentNode.classList.remove('set-show');
-
+      test: function () {
+        let html = this.Editor.txt.html();
+        // console.log(html);
+        let img = html.match(/<img[^>]+>/g)[0];
+        console.log(img);
+        let firstImgSrc = img.match();
       },
 
       handleSetClick: function(event) {
@@ -114,7 +116,7 @@ export default {
         _this.axios.post('api/article/newArticle',{
           title: this.currentTime(),
           body: '',
-          user_id: _this.$store.state.user.id,
+          user_id: _this.user.id,
           created_at: _this.currentTime()
         })
         .then(function (response) {
@@ -130,7 +132,7 @@ export default {
       deleteArticle: function (id) {
         let _this = this;
         _this.axios.post('api/article/deleteArticle',{
-          user_id: _this.$store.state.user.id,
+          user_id: _this.user.id,
           id: id
         })
         .then(function (response) {
@@ -155,12 +157,13 @@ export default {
         // 修改文章
       reviseArticle() {
         let _this = this;
+        let html = _this.Editor.txt.html();
         _this.axios.post('api/article/reviseArticle',{
           title: _this.title,
-          body: _this.Editor.txt.html(),
+          body: html,
           text: _this.Editor.txt.text().slice(0, 80) + '...',
           id: _this.id,
-          updated_at: _this.currentTime()
+          updated_at: _this.currentTime(),
         })
         .then(function (response) {
           let data = response.data;
@@ -178,11 +181,12 @@ export default {
       getArticles() {
         let _this = this;
         _this.axios.post('api/article/getArticles',{
-          user_id: _this.$store.state.user.id
+          user_id: _this.user.id
         })
         .then(function (response) {
           let data = response.data.result;
-          _this.articles = _this.copyArr(data);
+          _this.$store.commit('loadArticles',data);
+          console.log(data);
         })
         .catch(function (error) {
           console.log(error);
@@ -209,6 +213,10 @@ export default {
     // 实时计算
     computed: {
       // 获取从后台获取用户的所有文章
+        ...mapState({
+          user: state => state.users.user,
+          articles: state => state.articles.articles
+      }),
     },
     mounted() {
       let _this = this;
@@ -231,11 +239,14 @@ export default {
         return editor.txt.html();
       }
 
-      this.getArticles();
-      this.changeActive(0);
+    
 
       // 获取当前登录的用户信息
-      let user = JSON.parse(window.localStorage.getItem('user'));
+      let user = JSON.parse(window.sessionStorage.getItem('user'));
+      this.$store.commit('getLoginUser',user);
+      
+      console.log(user);
+      console.log(this.articles);
       //如果用户没有登录跳转到登陆界面
       if (!user) {
         this.$message({
@@ -246,6 +257,9 @@ export default {
           this.$router.push('/login')
         },2000)
       }
+
+      this.getArticles();
+      this.changeActive(0);
 
       let wetextContainer = document.querySelector('.w-e-text-container');
       wetextContainer.style.height = '100%';

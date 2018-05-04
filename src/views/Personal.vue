@@ -8,14 +8,14 @@
                       <img src="../assets/images/default.jpg"  />
                   </a>
                   <div class="title">
-                      <router-link to="/user" class="name">{{this.$store.state.user.name}}</router-link>
+                      <router-link to="/user" class="name"></router-link>
                   </div>
                   <div class="info">
                       <ul>
                           <li>
                             <div class="meta-block">
                                 <a href="###">
-                                    <p>{{getMeta.followings_count}}</p>
+                                    <p>{{user.name}}</p>
                                     关注
                                     <i class="iconfont icon-you"></i>
                                 </a>
@@ -24,7 +24,7 @@
                           <li>
                             <div class="meta-block">
                                 <a href="###">
-                                    <p>{{getMeta.favorites_count}}</p>
+                                    <p>{{user.followers_count}}</p>
                                     粉丝
                                     <i class="iconfont icon-you"></i>
                                 </a>
@@ -33,7 +33,7 @@
                           <li>
                             <div class="meta-block">
                                 <a href="###">
-                                    <p>{{getMeta.article_count}}</p>
+                                    <p>{{user.favorites_count}}</p>
                                     文章
                                     <i class="iconfont icon-you"></i>
                                 </a>
@@ -42,7 +42,7 @@
                           <li>
                             <div class="meta-block">
                                 <a href="###">
-                                    <p>{{getMeta.likes_count}}</p>
+                                    <p>{{user.likes_count}}</p>
                                     收获喜欢
                                     <i class="iconfont icon-you"></i>
                                 </a>
@@ -77,14 +77,16 @@
   </div>
 </template>
 
-
 <script>
+import { mapState } from 'vuex'
+
 import Header from '../components/Header.vue'
 import List from '../components/List.vue'
 import Writer from './Writer.vue'
 import test from '../data/data.json'
 
 export default {
+
     name: 'Personal',
     components: {
         Header,
@@ -92,9 +94,6 @@ export default {
     },
     data() {
         return {
-            user: {
-
-            },
             personals: [
                 {
                     name:"文章",
@@ -116,6 +115,9 @@ export default {
         }
     },
     computed: {
+        ...mapState({
+        user: state => state.users.user
+      }),
          getList: function() {
             let type = this.type;
             if(type === "article") {
@@ -128,14 +130,11 @@ export default {
             } else {
                 return this.lists;
             }
-        },
-        getMeta: function() {
-            return this.$store.state.user || this.$store.state.defaultUser;
         }
     },
     methods: {
         handleClick(tab, event) {
-        console.log(this.getMeta);
+        console.log(this.user);
         },
         
         // 改变状态

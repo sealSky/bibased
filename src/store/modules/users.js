@@ -1,11 +1,11 @@
 
 const state = {
-    count: 1,
-    age: '18', //存储了一个公共状态age
+    // 在线状态
+    is_active: false,
     user: {
         answers_count: 0,
         article_count: 0,
-        avatar: '"../assets/reslongo.png"',
+        avatar: '/static/images/default.jpg',
         comments_count: 0,
         created_at: null,
         favorites_count: 0,
@@ -19,11 +19,10 @@ const state = {
         phone: '',
         resume: null
     },
-    // 给user设置一个默认的对象
     defaultUser: {
         answers_count: 0,
         article_count: 0,
-        avatar: '"../assets/reslongo.png"',
+        avatar: '/static/images/default.jpg',
         comments_count: 0,
         created_at: null,
         favorites_count: 0,
@@ -37,17 +36,17 @@ const state = {
         phone: '',
         resume: null
     }
-},
+}
 
 const mutations = {
-    changeUserName(state, msg){
-        state.user.name= msg;
+    getLoginUser(state, obj) {
+        state.user = obj
     },
     getUser(state, obj) {
         state.user = obj
     },
-    getOBbj(state, obj) {
-        state.user = obj
+    changeIsActive(state, boolean) {
+        state.is_active = boolean
     }
 }
 

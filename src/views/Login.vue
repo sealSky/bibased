@@ -2,7 +2,7 @@
   <div class="sign">
       <div class="logo">
           <a href="/">
-          <img src="../assets/reslongo.png" ></a>
+          <img src="/static/images/reslongo.png" ></a>
       </div>
       <div class="main">
         <h4 class="title">
@@ -15,7 +15,7 @@
         
        <el-form :model="user" status-icon :rules="rules2" ref="user" class="demo-ruleForm sign-container">
         <el-form-item  prop="name">
-          <el-input v-model.number="user.name" prefix-icon="iconfont icon-xingmingyonghumingnicheng" placeholder="你的昵称"></el-input>
+          <el-input v-model="user.name" prefix-icon="iconfont icon-xingmingyonghumingnicheng" placeholder="你的昵称"></el-input>
         </el-form-item>
         <el-form-item  prop="pass">
           <el-input type="password" v-model="user.pass" prefix-icon="iconfont icon-mima" auto-complete="off" placeholder="密码"></el-input>
@@ -26,12 +26,13 @@
         </el-form-item>
       </el-form>
 
-
       </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: "Login",  
   data() {
@@ -48,8 +49,8 @@ export default {
         }, 500);
       };
       var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
+        if (!value) {
+          return callback(new Error('请输入密码'));
         } else {
           if(value.length < 6 || value.length > 16) {
             callback(new Error('请输入6-16位的密码'))
@@ -58,11 +59,6 @@ export default {
         }
       };
       return {
-        user: {
-          pass: '123456',
-          name: 'wxy',
-          is_active: ''
-        },
         rules2: {
            name: [
             { validator: checkName, trigger: 'blur' }
@@ -73,9 +69,15 @@ export default {
         }
       };
     },
-     watch: {
-    // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
-      '$route': 'getParams'
+    computed: {
+      // Getting Vuex State from store/modules/group
+      ...mapState({
+        user: state => state.users.user
+      })
+    },
+    // 监听属性
+    watch: {
+
     },
     methods: {
       // 对象拷贝方法
@@ -98,15 +100,19 @@ export default {
             })
             .then(function (response) {
               let data = response.data;
-              let user = data.user;
-              user.is_active = true;
-              // console.log(data);
               if(data.code === 'success') {
+                let user = data.user;
                 _this.$message({
                   message: data.msg,
                   type: data.code
                 });
-
+                window.sessionStorage.setItem('user',JSON.stringify(user));
+                window.sessionStorage.setItem('isActive', true);
+                 _this.$store.commit('getLoginUser', user);
+                _this.$store.commit('changeIsActive', true);
+                // console.log(window.sessionStorage.getItem('isActive'));
+                
+                //登录成功后跳转到首页
                 setTimeout(() => {
                   _this.$router.push({
                     name: 'Index',
@@ -115,11 +121,9 @@ export default {
                     }
                   })
                 },1000)
-
-                window.localStorage.setItem('user',JSON.stringify(user));
-                _this.$store.commit( 'getUser', user );
                 
               } else if (data.code === 'error') {
+                  console.log('登录失败');
                   _this.$message({
                     message: data.msg,
                     type: data.code
@@ -131,7 +135,7 @@ export default {
             })
 
           } else {
-            console.log('error submit!!');
+            console.log('错误的提交');
             return false;
           }
         });

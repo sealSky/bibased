@@ -11,7 +11,7 @@
           <!-- 文章列表 -->
           <div id="list-container">
               <ul class="note-list">
-                  <li class="have-img" v-for="list in article" :key="list.index">
+                  <li v-bind:class="{haveImg: list.img}" v-for="list in article" :key="list.index">
                       <div class="content">
                           <div class="author">
                               <a href="#" class="avatar">
@@ -39,8 +39,8 @@
                             </a>
                         </div>
                       </div>
-                      <a href="#" class="wrap-img">
-                          <img src="//upload-images.jianshu.io/upload_images/10186827-0a2191523be89352.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240" class="img" />
+                      <a href="#" class="wrapImg" >
+                          <span v-html="list.img"></span>
                       </a>
                   </li>
               </ul>
@@ -64,6 +64,7 @@ export default {
     props: ['name'],
     data() {
         return {
+            flag: true,
             recommend: test.body.recommend,
             lists: test.body.lists,
             article: []

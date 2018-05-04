@@ -35,9 +35,8 @@
 <script>
 import until from '@/js/common'
 export default {
-  
+  name: "Register",  
   data() {
-
       var checkName = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('昵称不能为空'));
@@ -72,10 +71,10 @@ export default {
       };
       return {
         user: {
-          pass: '123456',
+          pass: '',
           name: '',
-          phone: '17839191581',
-          avatar: '/static/images/default.jpg'
+          phone: '',
+          avatar: '/static/images/avatar.jpg'
         },
         rules2: {
            name: [
@@ -103,10 +102,6 @@ export default {
       },  
       // 注册函数
       registerUser () {
-        // let name = this.user.name;
-        // let phone = this.user.phone;
-        // let pwd = this.user.pass;
-        // let avatar = this.user.avatar;
         var _this = this;
         if ((this.user.name == '') || (this.phone == '') || (this.user.pass == '')) {
           this.$message({
@@ -145,9 +140,7 @@ export default {
             console.log(error);
           });
         }
-
       },
-
 
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -162,8 +155,7 @@ export default {
       resetForm(formName) {
         this.$refs[formName].resetFields();
       }
-    },
-  name: "Register"
+    }
 };
 </script>
 
