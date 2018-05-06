@@ -101,19 +101,6 @@ export default {
                 console.log(error);
             })
         },
-        // 获取所有文章测试
-        getArticleAllTest: function(num) {
-            let _this = this;
-            _this.axios.post('/api/article/getArticleAll', {
-                num: num,
-            }).then(function (response) {
-                let data = response.data.result;
-                console.log(data);
-                
-            }).catch(function (error) {
-                console.log(error);
-            })
-        },
         test: function() {
             console.log(this.$store.state.articles.articles);
             console.log(this.article);

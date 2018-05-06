@@ -115,10 +115,7 @@ export default {
                 //登录成功后跳转到首页
                 setTimeout(() => {
                   _this.$router.push({
-                    name: 'Index',
-                    params: {
-                      user
-                    }
+                    path: '/'
                   })
                 },1000)
                 

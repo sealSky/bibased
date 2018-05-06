@@ -3,7 +3,8 @@
 const state = {
     articles: [],
     articleCollections: 0,
-    is_action: null
+    is_action: null,
+    comments: []
 }
 
 const mutations = {
@@ -26,6 +27,9 @@ const mutations = {
     // 改变关注
     changeAction(state, flag) {
         state.is_action = flag
+    },
+    getComments(state, arr) {
+        state.comments = arr
     }
   
 }
