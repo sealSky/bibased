@@ -14,7 +14,7 @@
                     <span class="name">wxy</span>
                     <!-- 文章用户信息 -->
                     <div class="meta">
-                        2018.04.02 19:10 字数 1397 阅读 1598评论 10喜欢 121
+                        2018.04.02 19:10 字数 1397 阅读 1598评论 10喜欢 {{articleCollections}}
                     </div>
                 </div>
             </div> 
@@ -24,24 +24,29 @@
             </div>
             <!-- 文章底部信息 -->
             <div class="meta-bottom">
-                <div class="like">
-                    <div class="btn like-group">
+                <div class="like" @click="likeArticle()">
+                    <div :class="{'btn':true, 'like-group':true, 'like_animation':is_like}">
                         <div class="btn-like">
                         <span class="">
                         <i class="iconfont icon-xihuan"></i>
                             喜欢</span>
                         </div>
                         <div class="modal-wrap">
-                            <span>121</span>
+                            <span>{{articleCollections}}</span>
                         </div>
                     </div>
                 </div>
-                <div class="fllow">
-                    <div class="btn fllow-btn">
+                <!-- <div class="fllow" >
+                    <div v-if="is_action" class="btn btn-default fllow-btn">
                         <i class="iconfont icon-jiahao"></i>
                         <span>关注</span>
                     </div>
-                </div>
+                    <div v-if="!is_action" class="btn btn-default fllowing">
+                        <i class="iconfont icon-guanbi2"></i>
+                        <span>取消关注</span>
+                    </div>
+                </div> -->
+                
             </div>
             <!-- 评论 -->
             <div>
@@ -91,15 +96,15 @@
                                     <!-- 内容 -->
                                     <div class="comment-wrap">
                                         <p>高老师，针砭时弊，敢说真话，我支持！顶你，顶你，顶你，顶你，顶你，顶你……全部手打，就是顶你！</p>
-                                        <div class="tool-group">
+                                        <!-- <div class="tool-group">
                                             <a >
                                                 <i class="iconfont icon-pinglun1"></i>
                                                 <span>回复</span>
                                             </a>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <!-- 回复的评论 -->
-                                    <div class="sub-comment-list">
+                                    <!-- <div class="sub-comment-list">
                                         <div class="sub-comment">
                                            <div class="p">
                                                 <div class="v-tooltip-content">
@@ -128,7 +133,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -142,6 +147,7 @@
 
 <script>
 import Header from '@/components/Header.vue'
+import { mapState } from '../../node_modules/vuex';
 
 export default {
     name: 'Article',
@@ -152,10 +158,39 @@ export default {
         return {
             article: {},
             users: {},
-            comment: ''
+            comment: '',
+            is_like: false,
+            is_action: true,
+            user_id: 0,
+            articleCollections: 0,
+            articleId: 0
         }
     },
+    computed: {
+    // 获取Vuex State from store/modules/articles
+    ...mapState({
+        user: state => state.users.user,
+        is_active: state => state.users.is_active,
+        // articleCollections: state => state.articles.articleCollections,
+        // is_action: state => state.articles.is_action
+    }),
+    },
     methods: {
+        // 获取文章的收藏数 
+        getArticleCollections(id){
+            let url = 'api/article/getArticleCollections';
+            let _this = this;
+            _this.axios.post(url,{
+                article_id: id,
+            }).then((response) => {
+                let counts = response.data.counts;
+                _this.$store.commit('loadArticleCollections', counts);
+                _this.articleCollections = counts;
+                console.log(_this.articleCollections);
+            }).catch((error) => {
+                console.log(error);
+            })
+        },
         // 获取单个文章
         getArticle(id) {
             let _this = this;
@@ -170,9 +205,69 @@ export default {
                 console.log(error);
             });
         },
+        // 喜欢
+        likeArticle: function() {
+            let _this = this;
+            // console.log(this.article.id);
+            // console.log(this.user.id);
+            _this.axios.post('api/article/likeArticle',{
+                user_id: _this.user.id,
+                article_id: _this.article.id,
+            }).then(response => {
+                let data = response.data;
+                 _this.is_like = data.is_like;
+                _this.$store.commit('changeLike', data.is_like);
+                console.log(data.is_like);
+                if(data.is_like === true) {
+                    _this.articleCollections ++
+                } else {
+                    _this.articleCollections --
+                }
+            }).catch(function (error) {
+                console.log(error);
+            })
+        },
+        // 判断是否以及喜欢
+        isLikeArticle: function() {
+            let _this = this;
+            _this.axios.post('api/article/isLikeArticle', {
+                user_id: _this.user.id,
+                article_id: _this.article.id,
+            }).then(response => {
+                let data = response.data;
+                _this.is_like = data.is_like;
+                _this.$store.commit('changeLike', data.is_like);
+                console.log(data.is_like);
+            }).catch(function (error) {
+                console.log(error);
+            })
+        },
+        // 评论
+        resverComment: function() {
+            let _this = this;
+            _this.axios.post('api/article/likeArticle',{
+                user_id: _this.user.id,
+                article_id: _this.article.id,
+            }).then(response => {
+                let data = response.data;
+                _this.is_like = data.is_like;
+                _this.$store.commit('changeLike', data.is_like);
+                console.log(data.is_like);
+            }).catch(function (error) {
+                console.log(error);
+            })
+        },
+      
     },
     mounted() {
-        this.getArticle(12);
+        this.articleId = this.$route.query.id;
+        this.user_id = this.$route.query.user_id;
+        this.getArticle(this.articleId);
+        this.getArticleCollections(this.articleId);
+        this.isLikeArticle();
+        this.$store.commit('getLoginUser');
+        this.$store.commit('changeIsActive', JSON.parse(window.localStorage.getItem('isActive')));
+        console.log('文章id' + this.articleId);
     }
 }
 </script>
@@ -182,5 +277,17 @@ export default {
 .article-info {
     padding-top: 59px!important;
 }
+.like {
+    .like_animation {
+        background-color: #EA6F5A;
+        .modal-wrap {
+            border-left: 1px solid #fff;
+        }
+        span{
+        color: #fff;
+        }
+    }
+}
+
 
 </style>

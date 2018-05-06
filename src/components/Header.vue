@@ -18,6 +18,7 @@
         </router-link>
         <router-link to="/register" v-if="!is_active" class="link reg">注册</router-link>
         <router-link to="/login" v-if="!is_active" class="link">登录</router-link>
+        <a href="javascript:;" class="link" v-if="is_active">{{user.name}}</a>
         <div class="user" v-if="is_active">
           <el-menu 
           :default-active="activeIndex" 
@@ -80,15 +81,17 @@ export default {
 
   // 挂载
   mounted() {
-    if(window.sessionStorage.getItem('isActive')) {
+    if(window.localStorage.getItem('isActive')) {
       this.is_active = true;
+    } else {
+      this.is_active = false;
     }
   },
   // 静态函数
   methods: {
     // 个人中心
     personal(id) {
-      if (window.sessionStorage.getItem('user')) {
+      if (window.localStorage.getItem('user')) {
         this.$router.push({
           path: '/user/' + id
         })
@@ -97,7 +100,7 @@ export default {
       }
     },
      handleSelect(key, keyPath) {
-        console.log(window.sessionStorage.getItem('isActive'));
+        console.log(window.localStorage.getItem('isActive'));
       },
     cancle: function() {
       let _this = this;
@@ -106,8 +109,8 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          window.sessionStorage.removeItem('user');
-          window.sessionStorage.removeItem('isActive');
+          window.localStorage.removeItem('user');
+          window.localStorage.removeItem('isActive');
           _this.is_active = false;
           _this.$store.commit('changeIsActive',false);
           _this.$store.commit('getLoginUser',{});

@@ -22,7 +22,7 @@
                                   <span class="time">{{list.updated_at}}</span>
                               </div>
                           </div>
-                        <a href="javascript:;"  class="title" target="_blank" @click="readArticle(list.id)" >{{list.title}}</a>
+                        <a href="javascript:;"  class="title" target="_blank" @click="readArticle(list.id, list)" >{{list.title}}</a>
                         <p class="abstract" v-html="list.text"></p>
                         <div class="meta">
                             <a href="javascript:;">
@@ -39,7 +39,7 @@
                             </a>
                         </div>
                       </div>
-                      <a href="#" class="wrapImg" >
+                      <a href="#" v-if="list.img" class="wrapImg" >
                           <span v-html="list.img"></span>
                       </a>
                   </li>
@@ -119,7 +119,8 @@ export default {
             console.log(this.article);
         },
         readArticle: function (id, article) {
-            let routeData = this.$router.resolve({ path: '/p/' + id });
+            console.log(id);
+            let routeData = this.$router.resolve({ path: '/p/' + id, query:{ id:id, user_id: article.user_id} });
             window.open(routeData.href, '_blank');
             // this.$router.push({
             //     name: 'Article'

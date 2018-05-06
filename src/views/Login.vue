@@ -106,11 +106,11 @@ export default {
                   message: data.msg,
                   type: data.code
                 });
-                window.sessionStorage.setItem('user',JSON.stringify(user));
-                window.sessionStorage.setItem('isActive', true);
+                window.localStorage.setItem('user',JSON.stringify(user));
+                window.localStorage.setItem('isActive', true);
                  _this.$store.commit('getLoginUser', user);
                 _this.$store.commit('changeIsActive', true);
-                // console.log(window.sessionStorage.getItem('isActive'));
+                // console.log(window.localStorage.getItem('isActive'));
                 
                 //登录成功后跳转到首页
                 setTimeout(() => {

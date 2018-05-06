@@ -47,6 +47,9 @@ const mutations = {
     },
     changeIsActive(state, boolean) {
         state.is_active = boolean
+    },
+    getLoginUser(state) {
+        state.user = JSON.parse(window.localStorage.getItem('user'))
     }
 }
 

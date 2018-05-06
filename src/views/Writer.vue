@@ -104,6 +104,14 @@ export default {
         console.log(img);
         let firstImgSrc = img.match();
       },
+       // 获取当前日期
+      currentTime() {
+        let currentTime =  new Date();
+        let year = currentTime.getFullYear();
+        let moth = currentTime.getMonth()+1;
+        let day = currentTime.getDate();
+        return year + '-' + moth + '-' + day;
+      },
 
       handleSetClick: function(event) {
         let cause = event.target || event.srcElement;
@@ -145,19 +153,13 @@ export default {
           console.log(error);
         });
       },
-      // 获取当前日期
-      currentTime() {
-        let currentTime =  new Date();
-        let year = currentTime.getFullYear();
-        let moth = currentTime.getMonth()+1;
-        let day = currentTime.getDate();
-        return year + '-' + moth + '-' + day;
-      },
+     
         // 发布文章
         // 修改文章
       reviseArticle() {
         let _this = this;
         let html = _this.Editor.txt.html();
+        console.log(html);
         _this.axios.post('api/article/reviseArticle',{
           title: _this.title,
           body: html,
@@ -201,7 +203,7 @@ export default {
         .then(function (response) {
           let data = response.data.result[0];
           _this.title = data.title;
-          _this.body = data.body;
+          _this.Editor.txt.html(data.body);          
           _this.text = data.text;
           _this.id = data.id;
         })
@@ -242,7 +244,7 @@ export default {
     
 
       // 获取当前登录的用户信息
-      let user = JSON.parse(window.sessionStorage.getItem('user'));
+      let user = JSON.parse(window.localStorage.getItem('user'));
       this.$store.commit('getLoginUser',user);
       
       console.log(user);
