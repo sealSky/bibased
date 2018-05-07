@@ -8,20 +8,20 @@
                   <div class="name">{{item.name}}</div>
               </router-link>
           </div>
-          <!-- 文章列表 -->
-          <div id="list-container">
-              <ul class="note-list">
-                  <li v-bind:class="{haveImg: list.img}" v-for="list in article" :key="list.index">
-                      <div class="content">
-                          <div class="author">
-                              <a href="#" class="avatar">
-                                  <img class="img" :src="list.author.avatar" >
-                              </a>
-                              <div class="info">
-                                  <a href="#" class="nickname">{{list.author.name}}</a>
-                                  <span class="time">{{list.updated_at}}</span>
-                              </div>
-                          </div>
+           <!-- 文章列表 -->
+            <div id="list-container">
+                <ul class="note-list">
+                    <li v-bind:class="{haveImg: list.img}" v-for="list in articles" :key="list.index">
+                        <div class="content">
+                            <div class="author">
+                                <a href="#" class="avatar">
+                                    <img class="img" :src="list.author.avatar" >
+                                </a>
+                                <div class="info">
+                                    <a href="#" class="nickname">{{list.author.name}}</a>
+                                    <span class="time">{{list.updated_at}}</span>
+                                </div>
+                            </div>
                         <a href="javascript:;"  class="title" target="_blank" @click="readArticle(list.id, list)" >{{list.title}}</a>
                         <p class="abstract" v-html="list.text"></p>
                         <div class="meta">
@@ -35,38 +35,43 @@
                             </a>
                             <a href="javascript:;">
                                 <i class="iconfont icon-xihuan1"></i>
-                                 {{ list.followers_count }}
+                                    {{ list.followers_count }}
                             </a>
                         </div>
-                      </div>
-                      <a href="#" v-if="list.img" class="wrapImg" >
-                          <span v-html="list.img"></span>
-                      </a>
-                  </li>
-              </ul>
-          </div>
+                        </div>
+                        <a href="#" v-if="list.img" class="wrapImg" >
+                            <span v-html="list.img"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+          <!-- <List :articles="articles"></List> -->
       </div>
       <div class="aside">
-          <span @click="getArticleAll()">测试</span>
-          <br>
-          <span @click="test()">测试21</span>
+          <a href="javascript:;">
+            <img src="/static/images/aside2.jpg" alt="">
+            <img src="/static/images/aside1.jpg" alt="">
+            <img src="/static/images/aside3.jpg" alt="">
+          </a>
       </div>
   </div>
 </template>
 
 <script>
-import test from '../data/data.json'
+import List from './List.vue'
+import test from '@/data/data.json'
 import { mapState } from '../../node_modules/vuex';
 
 export default {
 
     name: 'Content',
-    props: ['name'],
+    components: {
+        List
+    },    
     data() {
         return {
             flag: true,
             recommend: test.body.recommend,
-            lists: test.body.lists,
             article: []
         }
     },
@@ -160,11 +165,6 @@ export default {
 
         
     }
-    .aside {
-        flex: 7;
-        margin-left: 4%;
-        min-height: 400px;
-        background-color: #eee;
-    }
+   
 }
 </style>

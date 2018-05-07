@@ -18,7 +18,6 @@
         </router-link>
         <router-link to="/register" v-if="!is_active" class="link reg">注册</router-link>
         <router-link to="/login" v-if="!is_active" class="link">登录</router-link>
-        <a href="javascript:;" class="link" v-if="is_active">{{user.name}}</a>
         <div class="user" v-if="is_active">
           <el-menu 
           :default-active="activeIndex" 

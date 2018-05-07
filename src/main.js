@@ -17,6 +17,7 @@ import './style/base.less';
 import './style/header.less';
 import './style/common/sign.less';
 import './style/common/list.less';
+import './style/common/aside.less';
 import './style/common/writer.less';
 
 

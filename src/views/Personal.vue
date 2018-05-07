@@ -57,20 +57,24 @@
                    <span slot="label" @click="changeType(item.type)" ><i class="el-icon-tickets"></i>{{item.name}}</span>
                 </el-tab-pane> -->
                 <el-tab-pane >
-                   <span slot="label" @click="changeType('article')" ><i class="el-icon-tickets"></i>文章</span>
+                   <span slot="label" @click="getArticles()" ><i class="el-icon-tickets"></i>文章</span>
                 </el-tab-pane>
                 <el-tab-pane >
-                   <span slot="label" @click="changeType('trends')" ><i class="iconfont icon-xihuan"></i>喜欢的文章</span>
+                   <span slot="label" @click="getLikeArticles()" ><i class="iconfont icon-xihuan"></i>喜欢的文章</span>
                 </el-tab-pane>
                  <el-tab-pane >
-                   <span slot="label" @click="changeType('comments')" ><i class="iconfont icon-detailscomments"></i>最新评论</span>
+                   <span slot="label" @click="getArticles(true)" ><i class="iconfont icon-detailscomments"></i>最新评论</span>
                 </el-tab-pane>
-                <List :lists="getList"></List>
+                <List :articles="articles"></List>
             </el-tabs>
               
           </div>
           <div class="aside">
-            
+             <a href="javascript:;">
+                <img src="/static/images/aside3.jpg" alt="">
+                <img src="/static/images/aside1.jpg" alt="">
+                <img src="/static/images/aside2.jpg" alt="">
+            </a>
           </div>
       </div>
       <router-view></router-view>
@@ -116,7 +120,9 @@ export default {
     },
     computed: {
         ...mapState({
-        user: state => state.users.user
+        user: state => state.users.user,
+        articles: state => state.articles.articles,
+
       }),
          getList: function() {
             let type = this.type;
@@ -134,17 +140,55 @@ export default {
     },
     methods: {
         handleClick(tab, event) {
-        console.log(this.user);
         },
         
         // 改变状态
         changeType(type) {
             this.type = type;
-        }
+        },
+          // 获取用户所有文章
+        getArticles(reverse) {
+            let _this = this;
+            _this.axios.post('api/article/getArticles',{
+            user_id: _this.user.id
+            })
+            .then(function (response) {
+            let data = response.data.result;
+            if(reverse === true) {
+                data.reverse();
+            }
+            // console.log(data);
+            _this.$store.commit('loadArticles',data);
+            
+            })
+            .catch(function (error) {
+            console.log(error);
+            });
+        },
+        // 获取用户喜欢的文章
+        getLikeArticles() {
+            let _this = this;
+            _this.axios.post('api/article/getLikeArticles',{
+            user_id: _this.user.id
+            })
+            .then(function (response) {
+            let data = response.data.articles;
 
+            // console.log(data);
+            _this.$store.commit('loadArticles',data);
+            
+            })
+            .catch(function (error) {
+            console.log(error);
+            });
+        },       
+    },
+    mounted() {
+        this.getArticles();
+        // console.log(this.articles);
     },
     created: function() {
-  },
+    },
     filters: {
         
     }
@@ -212,11 +256,7 @@ export default {
             }
         }
     }
-    .aside {
-        flex: 7;
-        margin-left: 4%;
-        background-color: #eee;
-    }
+   
 }
 
 .trigger-menu {

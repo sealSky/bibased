@@ -1,31 +1,37 @@
 <template>
-  <!-- 文章列表 -->
+    <!-- 文章列表 -->
     <div id="list-container">
         <ul class="note-list">
-            <li class="have-img" v-for="list in lists" :key="list.index">
+            <li v-bind:class="{haveImg: list.img}" v-for="list in articles" :key="list.index">
                 <div class="content">
-                    <div class="author">
+                    <!-- <div class="author">
                         <a href="#" class="avatar">
-                            <img class="img" :src="list.content.author.avatar.img" >
+                            <img class="img" :src="list.author.avatar" >
                         </a>
                         <div class="info">
-                            <a href="#" class="nickname">{{list.content.author.info.nickname.text}}</a>
-                            <span class="time">{{list.content.author.info.time}}</span>
+                            <a href="#" class="nickname">{{list.author.name}}</a>
+                            <span class="time">{{list.updated_at}}</span>
                         </div>
-                    </div>
-                    <a href="#" class="title" target="_blank">{{list.content.author.title.text}}</a>
-                    <p class="abstract">{{list.content.author.abstract}}</p>
-                    <div class="meta">
-                        <a href="javascript:;"><i class="iconfont icon-yuedu"></i>
-                        31</a>
-                        <a href="javascript:;"><i class="iconfont icon-detailscomments"></i>
-                        31</a>
-                        <a href="javascript:;"><i class="iconfont icon-xihuan1"></i>
-                        31</a>
-                    </div>
+                    </div> -->
+                <a href="javascript:;"  class="title" target="_blank" @click="readArticle(list.id, list)" >{{list.title}}</a>
+                <p class="abstract" v-html="list.text"></p>
+                <div class="meta">
+                    <a href="javascript:;">
+                        <i class="iconfont icon-yuedu"></i>
+                        {{ list.reads_count }}
+                    </a>
+                    <a href="javascript:;">
+                        <i class="iconfont icon-detailscomments"></i>
+                        {{ list.comments_count }}
+                    </a>
+                    <a href="javascript:;">
+                        <i class="iconfont icon-xihuan1"></i>
+                            {{ list.followers_count }}
+                    </a>
                 </div>
-                <a href="#" class="wrap-img">
-                    <img :src="list.wrap.img" class="img" />
+                </div>
+                <a href="#" v-if="list.img" class="wrapImg" >
+                    <span v-html="list.img"></span>
                 </a>
             </li>
         </ul>
@@ -35,16 +41,29 @@
 <script>
 export default {
 
-    props: ['lists'],
+    props: ['articles'],
 
      data () {
         return {
             
         }
+    },
+    methods: {
+        readArticle: function (id, article) {
+            console.log(id);
+            let routeData = this.$router.resolve({ path: '/p/' + id, query:{ id:id, user_id: article.user_id} });
+            window.open(routeData.href, '_blank');
+            // this.$router.push({
+            //     name: 'Article'
+            // });
+            // console.log(this.$router);
+        }
     }
 }
 </script>
 
-<style>
-
+<style lang="less" scopde >
+#list-container {
+    padding-top: 20px;
+}
 </style>

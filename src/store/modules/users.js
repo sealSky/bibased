@@ -35,7 +35,7 @@ const state = {
         password: '',
         phone: '',
         resume: null
-    }
+    },
 }
 
 const mutations = {
@@ -50,7 +50,8 @@ const mutations = {
     },
     getLoginUser(state) {
         state.user = JSON.parse(window.localStorage.getItem('user'))
-    }
+    },
+   
 }
 
 const actions = {
