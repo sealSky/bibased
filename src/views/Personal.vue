@@ -39,7 +39,7 @@
                                 </a>
                             </div>
                           </li>
-                          <li>
+                          <!-- <li>
                             <div class="meta-block">
                                 <a href="###">
                                     <p>{{user.likes_count}}</p>
@@ -47,15 +47,12 @@
                                     <i class="iconfont icon-you"></i>
                                 </a>
                             </div>
-                          </li>
+                          </li> -->
                       </ul>
                   </div>
               </div>
 
             <el-tabs class="trigger-menu" v-model="activeName" @tab-click="handleClick" >
-                <!-- <el-tab-pane v-for="(item, index) in personals" :key="item.type" >
-                   <span slot="label" @click="changeType(item.type)" ><i class="el-icon-tickets"></i>{{item.name}}</span>
-                </el-tab-pane> -->
                 <el-tab-pane >
                    <span slot="label" @click="getArticles()" ><i class="el-icon-tickets"></i>文章</span>
                 </el-tab-pane>
@@ -87,7 +84,6 @@ import { mapState } from 'vuex'
 import Header from '../components/Header.vue'
 import List from '../components/List.vue'
 import Writer from './Writer.vue'
-import test from '../data/data.json'
 
 export default {
 
@@ -98,24 +94,7 @@ export default {
     },
     data() {
         return {
-            personals: [
-                {
-                    name:"文章",
-                    type: "article"
-                },
-                {
-                    name: "动态", 
-                    type: "trends"
-                },
-                {
-                    name: "最新评论",
-                    type:  "comments"
-                }
-            ],
-            type: "article",
             activeName: 'first',
-            test: '测试',
-            lists: test.body.lists
         }
     },
     computed: {
@@ -123,29 +102,12 @@ export default {
         user: state => state.users.user,
         articles: state => state.articles.articles,
 
-      }),
-         getList: function() {
-            let type = this.type;
-            if(type === "article") {
-                return this.lists.slice(1,5);
-            } else if(type === "trends") {
-                return this.lists.slice(5,10);
-            }
-            else if(type === "comments") {
-                return this.lists.slice(10,15);
-            } else {
-                return this.lists;
-            }
-        }
+      })
     },
     methods: {
         handleClick(tab, event) {
         },
         
-        // 改变状态
-        changeType(type) {
-            this.type = type;
-        },
           // 获取用户所有文章
         getArticles(reverse) {
             let _this = this;

@@ -37,7 +37,7 @@
               </el-menu-item>
               <el-menu-item index="1-2" class="link-icon" >
                 <i class="iconfont icon-msnui-love"></i>
-                <router-link to="/user" tag="span">喜欢的文章</router-link>
+                <span  @click="personal(user.id)">喜欢的文章</span>
               </el-menu-item>
               <el-menu-item index="1-3" class="link-icon" >
                 <i class="iconfont icon-shezhi-tianchong"></i>

@@ -3,10 +3,10 @@
       <div class="main">
           <!-- 热门话题 -->
           <div class="recommend-collection">
-              <router-link class="collection" target="_blank" v-for="item in recommend" :key="item.index" :to="item.link" >
+              <a href="javascript:;" class="collection" target="_blank" v-for="item in recommend" :key="item.index" >
                   <img class="img" :src="item.img" />
                   <div class="name">{{item.name}}</div>
-              </router-link>
+              </a>
           </div>
            <!-- 文章列表 -->
             <div id="list-container">
@@ -97,7 +97,7 @@ export default {
             _this.axios.post('/api/article/getArticleAll', {
                 num: num,
             }).then(function (response) {
-                let data = response.data.result;
+                let data = response.data.result.reverse();
                 console.log(data);
                 _this.$store.commit( 'loadArticles', data );
                 _this.article = _this.copyArr(data);
