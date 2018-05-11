@@ -36,7 +36,7 @@ import { mapState } from 'vuex'
 export default {
   name: "Login",  
   data() {
-      var checkName = (rule, value, callback) => {
+      let checkName = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('昵称不能为空'));
         }
@@ -48,7 +48,7 @@ export default {
           }
         }, 500);
       };
-      var validatePass = (rule, value, callback) => {
+      let validatePass = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('请输入密码'));
         } else {
@@ -59,6 +59,10 @@ export default {
         }
       };
       return {
+        user: {
+          pass: '',
+          name: '',
+        },
         rules2: {
            name: [
             { validator: checkName, trigger: 'blur' }
@@ -71,9 +75,6 @@ export default {
     },
     computed: {
       // Getting Vuex State from store/modules/group
-      ...mapState({
-        user: state => state.users.user
-      })
     },
     // 监听属性
     watch: {
@@ -141,6 +142,8 @@ export default {
         this.$refs[formName].resetFields();
       }
     },
+    mounted() {
+    }
 };
 </script>
 

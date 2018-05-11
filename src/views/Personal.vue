@@ -83,7 +83,6 @@ import { mapState } from 'vuex'
 
 import Header from '../components/Header.vue'
 import List from '../components/List.vue'
-import Writer from './Writer.vue'
 
 export default {
 

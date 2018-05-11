@@ -296,6 +296,19 @@ export default {
             }).catch(function (error) {
                 console.log(error);
             })
+        },
+        // 阅读，打开给文章阅读数加上1
+        readArticle: function() {
+            let _this = this;
+             _this.axios.post('api/article/readArticle',{
+                article_id: _this.articleId
+            }).then(response => {
+                let data = response.data.result;
+                // console.log(data);
+                _this.comments = _this.copyArr(data);
+            }).catch(function (error) {
+                console.log(error);
+            })
         }
       
     },
@@ -306,6 +319,7 @@ export default {
         this.getArticleCollections(this.articleId);
         this.isLikeArticle();
         this.loaderComment();
+        this.readArticle();
         this.$store.commit('getLoginUser');
         this.$store.commit('changeIsActive', JSON.parse(window.localStorage.getItem('isActive')));
         console.log(typeof this.articleId);

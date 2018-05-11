@@ -4,7 +4,7 @@
       <img class="img" src="../assets/images/logo.png" >
       </a>
       <div class="container nav-main">
-        <a href="javascript:;" @click="handleSelect()" class="home">
+        <a href="/"  class="home">
           首页
         </a>
         <div class="select-bar">
@@ -35,10 +35,10 @@
                 <i class="iconfont icon-yonghu-tianchong"></i>
                 <span @click="personal(user.id)">我的主页</span>
               </el-menu-item>
-              <el-menu-item index="1-2" class="link-icon" >
+              <!-- <el-menu-item index="1-2" class="link-icon" >
                 <i class="iconfont icon-msnui-love"></i>
                 <span  @click="personal(user.id)">喜欢的文章</span>
-              </el-menu-item>
+              </el-menu-item> -->
               <el-menu-item index="1-3" class="link-icon" >
                 <i class="iconfont icon-shezhi-tianchong"></i>
                 <router-link to="/user" tag="span">设置</router-link>

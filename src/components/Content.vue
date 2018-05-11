@@ -9,7 +9,7 @@
               </a>
           </div>
            <!-- 文章列表 -->
-            <div id="list-container">
+            <!-- <div id="list-container">
                 <ul class="note-list">
                     <li v-bind:class="{haveImg: list.img}" v-for="list in articles" :key="list.index">
                         <div class="content">
@@ -44,8 +44,8 @@
                         </a>
                     </li>
                 </ul>
-            </div>
-          <!-- <List :articles="articles"></List> -->
+            </div> -->
+          <List :articles="articles"></List>
       </div>
       <div class="aside">
           <a href="javascript:;">
@@ -110,15 +110,15 @@ export default {
             console.log(this.$store.state.articles.articles);
             console.log(this.article);
         },
-        readArticle: function (id, article) {
-            console.log(id);
-            let routeData = this.$router.resolve({ path: '/p/' + id, query:{ id:id, user_id: article.user_id} });
-            window.open(routeData.href, '_blank');
-            // this.$router.push({
-            //     name: 'Article'
-            // });
-            // console.log(this.$router);
-        }
+        // readArticle: function (id, article) {
+        //     console.log(id);
+        //     let routeData = this.$router.resolve({ path: '/p/' + id, query:{ id:id, user_id: article.user_id} });
+        //     window.open(routeData.href, '_blank');
+        //     // this.$router.push({
+        //     //     name: 'Article'
+        //     // });
+        //     // console.log(this.$router);
+        // }
     },
 
     // 实例创建前钩子函数
