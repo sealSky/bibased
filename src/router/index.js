@@ -6,6 +6,7 @@ import Login from '@/views/Login'
 import Personal from '@/views/Personal'
 import Writer from '@/views/Writer'
 import Article from '@/views/Article'
+import Setting from '@/views/Setting'
 
 Vue.use(Router)
 
@@ -41,6 +42,11 @@ export default new Router({
       path: '/article',
       name: 'Article',
       component: Article
+    },
+    {
+      path: '/setting',
+      name: 'Setting',
+      component: Setting
     },
     {
       path: '/p/:id',

@@ -41,7 +41,7 @@
               </el-menu-item> -->
               <el-menu-item index="1-3" class="link-icon" >
                 <i class="iconfont icon-shezhi-tianchong"></i>
-                <router-link to="/user" tag="span">设置</router-link>
+                <router-link to="/Setting" tag="span">设置</router-link>
               </el-menu-item>
               <el-menu-item 
               index="1-4" 
